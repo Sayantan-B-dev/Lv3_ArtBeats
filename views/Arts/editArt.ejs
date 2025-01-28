@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/AllStreetArts/<%= Art._id %>?_method=PUT" method="POST" style="display:flex;flex-direction: column; max-width: 300px;">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" placeholder="Title" value="<%= Art.title %>" />
+    
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" placeholder="Description" value="<%= Art.description %>" />
+    
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" placeholder="Location" value="<%= Art.location %>" />
+    
+        <label for="artist_name">Artist Name:</label>
+        <input type="text" id="artist_name" name="artist_name" placeholder="Artist Name" value="<%= Art.artist_name %>" />
+    
+        <label for="date_created">Date Created:</label>
+        <input type="date" id="date_created" name="date_created" value="<%= Art.date_created.toISOString().slice(0, 10); %>" />
+    
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2><a href="/AllStreetArts">All Arts</a></h2>
+    
+</body>
+</html>
