@@ -1,0 +1,132 @@
+.each-art-card {
+    width: 50%;
+    background-color:rgb(228, 220, 252);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 3px solid white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.each-art-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 2px 12px rgb(229, 255, 0);
+}
+
+.each-card-image{
+    width: 400px; 
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    border-right: 3px solid rgb(0, 0, 0);
+    border-bottom-right-radius: 12px;
+    border-top-right-radius: 12px;
+    transition: transform 0.3s ease;
+    transform-origin: center left;
+}
+.each-art-card:hover .each-card-image{
+    transform: scale(1.03);  
+}
+
+
+.each-card-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    position: relative;
+    z-index: 2;  
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 10px;
+}
+
+.each-card-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    margin-top: auto;
+}
+
+.each-art-title {
+    color: #000000;
+    font-size: 1.4rem;
+    margin: 0;
+    padding: 5px;
+    border-radius: 10px;
+    background-color:rgb(255, 255, 255);
+    border-right: 2px solid #000000;
+    border-bottom: 2px solid #000000;
+}
+
+.each-art-date {
+    color: #000000;
+    font-size: 0.9rem;
+    margin-top:5px;
+    font-style: italic;
+}
+
+.each-art-description {
+    color: #000000;
+    line-height: 1.6;
+    padding: 5px;
+    background-color:rgb(255, 255, 255);
+    border-right: 2px solid #000000;
+    border-bottom: 2px solid #000000;
+}
+
+.each-card-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    color: #000000;
+    font-size: 0.9rem;
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.each-artist-info, .location-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.each-material-icons {
+    font-size: 1.1rem;
+    color: #3c5be7;
+}
+
+.two-button{
+    display: flex;
+    flex-direction: row;
+    gap:20px;
+}
+
+.rmv-btn{
+    padding: 5px 7px;;
+    background: linear-gradient(135deg, #e24a4a, #bd2a2a);
+}
+.rmv-btn:hover {
+    background: linear-gradient(135deg, #bd2a2a, #7a1a1a);
+}
+
+@media (max-width:1034px) {
+    .each-art-card {
+        flex-direction: column;
+    }
+}

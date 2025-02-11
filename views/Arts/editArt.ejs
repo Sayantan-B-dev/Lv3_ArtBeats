@@ -1,0 +1,25 @@
+<% layout('layouts/boilerplate') %>
+<h1 class="page-head">EDIT ART</h1>
+<form class="new-form" action="/AllStreetArts/<%= Art._id %>?_method=PUT" method="POST" style="display:flex;flex-direction: column; max-width: 300px;">
+    <label class="new-label" for="title">Title:</label>
+    <input class="new-input" type="text" id="title" name="title" placeholder="Title" value="<%= Art.title %>" />
+
+    <label class="new-label" for="description">Description:</label>
+    <input class="new-input" type="text" id="description" name="description" placeholder="Description" value="<%= Art.description %>" />
+
+    <label class="new-label" for="location">Location:</label>
+    <input class="new-input" type="text" id="location" name="location" placeholder="Location" value="<%= Art.location %>" />
+
+    <label class="new-label" for="artist_name">Artist Name:</label>
+    <input class="new-input" type="text" id="artist_name" name="artist_name" placeholder="Artist Name" value="<%= Art.artist_name %>" />
+
+    <label class="new-label" for="date_created">Date Created:</label>
+    <input class="new-input" type="date" id="date_created" name="date_created" value="<%= Art.date_created.toISOString().slice(0, 10); %>" />
+
+    <label class="new-label" for="image_url">Image url:</label>
+    <input class="new-input" type="text" id="image_url" name="image_url" placeholder="Image URL"value="<%= Art.image_url %>" />
+
+    <button class="new-button" type="submit">Submit</button>
+</form>
+
+<a href="/AllStreetArts"><button class="btn">All Arts</button></a>

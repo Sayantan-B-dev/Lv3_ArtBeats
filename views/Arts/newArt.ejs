@@ -1,0 +1,26 @@
+<% layout('layouts/boilerplate') %>
+<h1 class="page-head">ADD NEW ART</h1>
+<form class="new-form" action="/AllStreetArts" method="POST" style="display:flex;flex-direction: column; max-width: 300px;">
+    <p id="form-alert" style="color:red;text-align:center;"></p>
+    <label class="new-label" for="title">Title:</label>
+    <input class="new-input" type="text" id="title" name="title" placeholder="Title" required/>
+
+    <label class="new-label" for="description">Description:</label>
+    <input class="new-input" type="text" id="description" name="description" placeholder="Description" required/>
+
+    <label class="new-label" for="location">Location:</label>
+    <input class="new-input" type="text" id="location" name="location" placeholder="Location" required/>
+
+    <label class="new-label" for="artist_name">Artist Name:</label>
+    <input class="new-input" type="text" id="artist_name" name="artist_name" placeholder="Artist Name" required/>
+
+    <label class="new-label" for="date_created">Date Created:</label>
+    <input class="new-input" type="date" id="date_created" name="date_created" required/>
+
+    <label class="new-label" for="image_url">Image url:</label>
+    <input class="new-input" type="url" id="image_url" name="image_url" placeholder="Image URL" required/>
+
+    <button class="new-button" type="submit">Submit</button>
+</form>
+
+<a href="/AllStreetArts"><button class="btn">All Arts</button></a>

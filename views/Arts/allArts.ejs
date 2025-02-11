@@ -1,0 +1,18 @@
+<% layout('layouts/boilerplate') %>
+<a href="/AllStreetArts/newArt"><button class="btn">Add new art</button></a>
+<div class="cards">
+    <%  for(let Art of Arts){ %>
+        <div class="art-card" onclick="window.location.href='http://localhost:3000/AllStreetArts/<%= Art._id %>';">
+            <img class="card-image" src="<%= Art.image_url %>" alt="">
+            <div class="card-text card-header">
+                <h2 class="art-title">
+                    <%= Art.title %>
+                </h2>
+                <div class="location-info">
+                    <span class="material-icons">place</span>
+                    <%= Art.location %>
+                </div>
+            </div>
+        </div>
+    <% } %>
+</div>

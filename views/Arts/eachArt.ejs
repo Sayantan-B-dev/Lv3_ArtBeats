@@ -1,0 +1,43 @@
+<% layout('layouts/boilerplate') %>
+<h1 class="page-head"><%= Art.title %></h1>
+<div class="each-art-card">
+    <div>
+        <img class="each-card-image" src="<%= Art.image_url %>" alt="">
+    </div>
+    <div class="each-card-text">
+        <div class="each-card-header">
+            <h2 class="each-art-title">
+                <%= Art.title %>
+            </h2>
+            <div class="each-art-date">
+                <%= Art.date_created.toLocaleDateString() %>
+            </div>
+        </div>
+        
+        <p class="each-card-text each-art-description">
+            <%= Art.description %>
+        </p>
+
+        <div class="each-card-footer">
+            <div class="each-artist-info">
+                <span class="material-icons">person</span>
+                <%= Art.artist_name %>
+            </div>
+            <div class="each-location-info">
+                <span class="material-icons">place</span>
+                <%= Art.location %>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    
+<div class="two-button">
+    <a href="/AllStreetArts/<%= Art._id %>/editArt"><button class="btn">Edit Art</button></a>  
+    <a href="/AllStreetArts"><button class="btn">All Arts</button></a>
+    <form action="/AllStreetArts/<%= Art._id %>?_method=DELETE" method="POST">
+        <button class="rmv-btn btn" type="submit">Remove Art</button>
+    </form>
+</div>
+
