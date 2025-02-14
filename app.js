@@ -5,7 +5,9 @@ const mongoose = require('mongoose');
 const app = express();
 const methodoverride =require('method-override')
 const StreetArt = require('./models/model');
-const ejsMate=require('ejs-mate')
+const ejsMate = require('ejs-mate')
+const catchAsync = require("./utils/catchAsync.js");
+const ExpressError = require("./utils/ExoressErrors.js");
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/StreetArt');
@@ -25,81 +27,58 @@ app.use(methodoverride('_method'));
 app.use(express.json());
 
 
-app.get('/', (req, res) => {
-  try{
-      res.render("test");
-  } catch(e){
-    next(e);
-  } 
-})
-app.get('/AllStreetArts', async (req, res, next) => {
-  try{
-      const Arts = await StreetArt.find({})
-      res.render('Arts/allArts', { Arts });
-  } catch(e){
-    next(e);
-  } 
-})
+app.get('/', catchAsync((req, res) => {
+  res.render("test");
+}));
+app.get('/AllStreetArts', catchAsync(async (req, res, next) => {
+  const Arts = await StreetArt.find({})
+  res.render('Arts/allArts', { Arts });
+}));
 app.get('/AllStreetArts/newArt', (req, res) => {
   res.render('Arts/newArt');
 });
-app.post("/AllStreetArts", async (req, res, next) => {
-  try{
+app.post("/AllStreetArts", catchAsync(async (req, res, next) => {
+  if(!req.body.StreetArt) throw new ExpressError("invalid Data",400)
     const newArt = new StreetArt(req.body);
     await newArt.save();
     res.redirect(`/AllStreetArts/${newArt._id}`);
-  }catch(e){
-    next(e);
-  }
-});
+}));
 
 
-app.get('/AllStreetArts/:id', async (req, res, next) => {
-  try{
+app.get('/AllStreetArts/:id', catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const Art = await StreetArt.findById(id);
     res.render("Arts/eachArt", { Art });
-  }catch(e){
-    next(e);
-  }
-});
+}));
 
-app.get("/AllStreetArts/:id/editArt", async (req, res, next) => {
-  try{
+app.get("/AllStreetArts/:id/editArt", catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const Art = await StreetArt.findById(id);
     res.render("Arts/editArt", { Art });
-  }catch(e){
-    next(e);
-  }
-});
-app.put("/AllStreetArts/:id", async (req, res, next) => {
-  try{
+}));
+app.put("/AllStreetArts/:id", catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const Art = await StreetArt.findByIdAndUpdate(id, req.body, {
       runValidators: true,
     });
     res.redirect(`/AllStreetArts/${Art._id}`);
-  }catch(e){
-    next(e);
-  }
-});
-app.delete("/AllStreetArts/:id", async (req, res, next) => {
-  try{
+}));
+app.delete("/AllStreetArts/:id", catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const Art = await StreetArt.findByIdAndDelete(id);
     res.redirect(`/AllStreetArts`);
-  }catch(e){
-    next(e);
-  }
-});
+}));
 
 
+app.all('*', (req, res, next) => {
+  next(new ExpressError('Page not found!!',404));
+})
 app.use((req, res, next) => {
   res.send("404,Page not found");
 });
 app.use((err, req, res, next) => {
-  res.send('something went wrong')
+  const { statusCode = 500, message = "something went wrong" }=err;
+  res.status(statusCode).send(message);
 })
 app.listen(PORT, () => {
     console.log('listening to: ',PORT)
