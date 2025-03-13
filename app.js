@@ -1,5 +1,5 @@
 const express = require('express');
-const PORT = 3000;
+const PORT = 3002;
 const path = require('path');
 const mongoose = require('mongoose');
 const app = express();
@@ -7,7 +7,7 @@ const methodoverride =require('method-override')
 const StreetArt = require('./models/model');
 const ejsMate = require('ejs-mate')
 const catchAsync = require("./utils/catchAsync.js");
-const ExpressError = require("./utils/ExoressErrors.js");
+const ExpressError = require("./utils/ExpressErrors.js");
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/StreetArt');
@@ -38,10 +38,13 @@ app.get('/AllStreetArts/newArt', (req, res) => {
   res.render('Arts/newArt');
 });
 app.post("/AllStreetArts", catchAsync(async (req, res, next) => {
-  if(!req.body.StreetArt) throw new ExpressError("invalid Data",400)
-    const newArt = new StreetArt(req.body);
-    await newArt.save();
-    res.redirect(`/AllStreetArts/${newArt._id}`);
+  console.log(req.body);
+  if (!req.body.StreetArt) {
+    throw new ExpressError("Invalid Data", 400);
+  }
+  const newArt = new StreetArt(req.body.StreetArt);
+  await newArt.save();
+  res.redirect(`/AllStreetArts/${newArt._id}`);
 }));
 
 
@@ -57,12 +60,23 @@ app.get("/AllStreetArts/:id/editArt", catchAsync(async (req, res, next) => {
     res.render("Arts/editArt", { Art });
 }));
 app.put("/AllStreetArts/:id", catchAsync(async (req, res, next) => {
-    const { id } = req.params;
-    const Art = await StreetArt.findByIdAndUpdate(id, req.body, {
-      runValidators: true,
-    });
-    res.redirect(`/AllStreetArts/${Art._id}`);
+  console.log("Received Data:", req.body); // Check what is being received
+
+  const { id } = req.params;
+  const updatedArt = await StreetArt.findByIdAndUpdate(id, req.body.StreetArt, {
+    runValidators: true,
+    new: true
+  });
+
+  if (!updatedArt) {
+    throw new ExpressError("Art not found", 404);
+  }
+
+  console.log("Updated Art:", updatedArt); // Check if update worked
+  res.redirect(`/AllStreetArts/${updatedArt._id}`);
 }));
+
+
 app.delete("/AllStreetArts/:id", catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const Art = await StreetArt.findByIdAndDelete(id);
@@ -70,15 +84,17 @@ app.delete("/AllStreetArts/:id", catchAsync(async (req, res, next) => {
 }));
 
 
-app.all('*', (req, res, next) => {
-  next(new ExpressError('Page not found!!',404));
-})
+
 app.use((req, res, next) => {
-  res.send("404,Page not found");
+  res.render('Arts/404error');
 });
 app.use((err, req, res, next) => {
-  const { statusCode = 500, message = "something went wrong" }=err;
-  res.status(statusCode).send(message);
+  const { statusCode = 500, message = "Something went wrong" } = err;
+  res.status(statusCode).render('Arts/error', { statusCode, message });
+});
+app.all('*', (req, res, next) => {
+  next(new ExpressError('Page not found!!',404));
+
 })
 app.listen(PORT, () => {
     console.log('listening to: ',PORT)

@@ -1,25 +1,33 @@
 <% layout('layouts/boilerplate') %>
 <h1 class="page-head">EDIT ART</h1>
-<form class="new-form" action="/AllStreetArts/<%= Art._id %>?_method=PUT" method="POST" style="display:flex;flex-direction: column; max-width: 300px;">
+<form class="new-form" action="/AllStreetArts/<%= Art._id %>?_method=PUT" method="POST" style="display:flex; flex-direction: column; max-width: 300px;">
+    
+    <p id="form-alert" style="color:red; text-align:center;"></p>
+
+    <!-- Hidden input for method override -->
+    <input type="hidden" name="_method" value="PUT">
+
     <label class="new-label" for="title">Title:</label>
-    <input class="new-input" type="text" id="title" name="title" placeholder="Title" value="<%= Art.title %>" />
+    <input class="new-input" type="text" id="title" name="StreetArt[title]" placeholder="Title" value="<%= Art.title %>" required />
 
     <label class="new-label" for="description">Description:</label>
-    <input class="new-input" type="text" id="description" name="description" placeholder="Description" value="<%= Art.description %>" />
+    <input class="new-input" type="text" id="description" name="StreetArt[description]" placeholder="Description" value="<%= Art.description %>" required />
 
     <label class="new-label" for="location">Location:</label>
-    <input class="new-input" type="text" id="location" name="location" placeholder="Location" value="<%= Art.location %>" />
+    <input class="new-input" type="text" id="location" name="StreetArt[location]" placeholder="Location" value="<%= Art.location %>" required />
 
     <label class="new-label" for="artist_name">Artist Name:</label>
-    <input class="new-input" type="text" id="artist_name" name="artist_name" placeholder="Artist Name" value="<%= Art.artist_name %>" />
+    <input class="new-input" type="text" id="artist_name" name="StreetArt[artist_name]" placeholder="Artist Name" value="<%= Art.artist_name %>" required />
 
     <label class="new-label" for="date_created">Date Created:</label>
-    <input class="new-input" type="date" id="date_created" name="date_created" value="<%= Art.date_created.toISOString().slice(0, 10); %>" />
+    <input class="new-input" type="date" id="date_created" name="StreetArt[date_created]" 
+           value="<%= Art.date_created ? Art.date_created.toISOString().slice(0, 10) : '' %>" required />
 
-    <label class="new-label" for="image_url">Image url:</label>
-    <input class="new-input" type="text" id="image_url" name="image_url" placeholder="Image URL"value="<%= Art.image_url %>" />
+    <label class="new-label" for="image_url">Image URL:</label>
+    <input class="new-input" type="text" id="image_url" name="StreetArt[image_url]" placeholder="Image URL" value="<%= Art.image_url %>" required />
 
     <button class="new-button" type="submit">Submit</button>
 </form>
+
 
 <a href="/AllStreetArts"><button class="btn">All Arts</button></a>

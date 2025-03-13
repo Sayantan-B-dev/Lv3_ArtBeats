@@ -16,7 +16,6 @@ const seedDB = async () => {
     });
     await StreetArt.insertMany(modifiedData);
 }
-
 const DATA= seedDB();
 
 console.log(DATA);
