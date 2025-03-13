@@ -8,6 +8,7 @@ const StreetArt = require('./models/model');
 const ejsMate = require('ejs-mate')
 const catchAsync = require("./utils/catchAsync.js");
 const ExpressError = require("./utils/ExpressErrors.js");
+const Joi = require('joi');
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/StreetArt');
@@ -38,14 +39,34 @@ app.get('/AllStreetArts/newArt', (req, res) => {
   res.render('Arts/newArt');
 });
 app.post("/AllStreetArts", catchAsync(async (req, res, next) => {
-  console.log(req.body);
-  if (!req.body.StreetArt) {
-    throw new ExpressError("Invalid Data", 400);
+  const allArtSchema = Joi.object({
+    StreetArt: Joi.object({
+      title: Joi.string().trim().required(),
+      description: Joi.string().trim().required(),
+      location: Joi.string().trim().required(),
+      artist_name: Joi.string().trim().required(),
+      date_created: Joi.date().iso().required(),
+      image_url: Joi.string().uri().required()
+    })
+  });
+
+  const { error } = allArtSchema.validate(req.body, { abortEarly: false });
+
+  if (error) {
+    const msg = error.details.map(el => el.message).join(', ');
+    return res.status(400).json({ error: msg });
   }
-  const newArt = new StreetArt(req.body.StreetArt);
-  await newArt.save();
-  res.redirect(`/AllStreetArts/${newArt._id}`);
+
+  try {
+    console.log(req.body);
+    const newArt = new StreetArt(req.body.StreetArt);
+    await newArt.save();
+    res.redirect(`/AllStreetArts/${newArt._id}`);
+  } catch (err) {
+    next(err);
+  }
 }));
+;
 
 
 app.get('/AllStreetArts/:id', catchAsync(async (req, res, next) => {
