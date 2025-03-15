@@ -1,5 +1,5 @@
 const express = require('express');
-const PORT = 3002;
+const PORT = 3000;
 const path = require('path');
 const mongoose = require('mongoose');
 const app = express();
@@ -8,7 +8,7 @@ const StreetArt = require('./models/model');
 const ejsMate = require('ejs-mate')
 const catchAsync = require("./utils/catchAsync.js");
 const ExpressError = require("./utils/ExpressErrors.js");
-const Joi = require('joi');
+const {StreetArtSchema} = require('./schemas');
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/StreetArt');
@@ -27,6 +27,17 @@ app.use(express.static('public'));
 app.use(methodoverride('_method'));
 app.use(express.json());
 
+const validateStreetArt=(req,res,next)=>{
+
+  const { error } = StreetArtSchema.validate(req.body, { abortEarly: false });
+
+  if (error) {
+    const msg = error.details.map(el => el.message).join(', ');
+    return res.status(400).json({ error: msg });
+  }else{
+    next()
+  }
+}
 
 app.get('/', catchAsync((req, res) => {
   res.render("test");
@@ -39,23 +50,6 @@ app.get('/AllStreetArts/newArt', (req, res) => {
   res.render('Arts/newArt');
 });
 app.post("/AllStreetArts", catchAsync(async (req, res, next) => {
-  const allArtSchema = Joi.object({
-    StreetArt: Joi.object({
-      title: Joi.string().trim().required(),
-      description: Joi.string().trim().required(),
-      location: Joi.string().trim().required(),
-      artist_name: Joi.string().trim().required(),
-      date_created: Joi.date().iso().required(),
-      image_url: Joi.string().uri().required()
-    })
-  });
-
-  const { error } = allArtSchema.validate(req.body, { abortEarly: false });
-
-  if (error) {
-    const msg = error.details.map(el => el.message).join(', ');
-    return res.status(400).json({ error: msg });
-  }
 
   try {
     console.log(req.body);
