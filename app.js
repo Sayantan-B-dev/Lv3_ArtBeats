@@ -1,9 +1,10 @@
+
 const express = require('express');
 const PORT = 3000;
 const path = require('path');
 const mongoose = require('mongoose');
 const app = express();
-const methodoverride = require('method-override')
+const methodOverride = require('method-override')
 const StreetArt = require('./models/model');
 const ejsMate = require('ejs-mate')
 const catchAsync = require("./utils/catchAsync.js");
@@ -23,10 +24,11 @@ app.set('views', path.join(__dirname, 'views'))
 
 app.engine('ejs', ejsMate);
 
+
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
-app.use(methodoverride('_method'));
 app.use(express.json());
+app.use(methodOverride("_method"));
+app.use(express.static("public"));
 
 const validateStreetArt = (req, res, next) => {
 
