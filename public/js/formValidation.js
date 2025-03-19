@@ -82,11 +82,24 @@ function validateImageUrl(imageUrl, formAlert) {
     return true;
 }
 
+// function validateComment(comment, formAlert) {
+//     const commentRegex = /^[A-Za-z0-9.,\s]*$/;
+//     if (comment.length < 1 || comment.length > 100) {
+//         formAlert.innerText = "Number of characters of comment must be between 1-100";
+//         return false;
+//     }
+//     if (!commentRegex.test(comment)) {
+//         formAlert.innerText ="Only letters, numbers, spaces, commas, and periods are allowed in the comment.";
+//         return false;
+//     }
+//     return true;
+// }
+
 
 
 
 document
-    .querySelector(".new-form")
+    .querySelector(".new-form ")
     .addEventListener("submit", function (event) {
         event.preventDefault();
         let formAlert = document.querySelector("#form-alert");
@@ -97,6 +110,7 @@ document
         const artistName = document.querySelector("#artist_name").value.trim();
         const dateCreated = document.querySelector("#date_created").value.trim();
         const imageUrl = document.querySelector("#image_url").value.trim();
+        // const comment = document.querySelector("#comment").value.trim();
 
         if(
             validateTitle(title, formAlert) &&
@@ -104,7 +118,8 @@ document
             validateLocation(location, formAlert) && 
             validateArtistName(artistName, formAlert) && 
             validateDateCreated(dateCreated, formAlert) && 
-            validateImageUrl(imageUrl, formAlert)
+             validateImageUrl(imageUrl, formAlert) //&&
+            // validateComment(comment, formAlert)
         ){
         this.submit();
         }

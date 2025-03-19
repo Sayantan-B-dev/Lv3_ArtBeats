@@ -3,22 +3,23 @@ const PORT = 3000;
 const path = require('path');
 const mongoose = require('mongoose');
 const app = express();
-const methodoverride =require('method-override')
+const methodoverride = require('method-override')
 const StreetArt = require('./models/model');
 const ejsMate = require('ejs-mate')
 const catchAsync = require("./utils/catchAsync.js");
 const ExpressError = require("./utils/ExpressErrors.js");
-const {StreetArtSchema} = require('./schemas');
+const { StreetArtSchema,commentSchema } = require('./schemas');
+const comments = require('./models/comment');
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/StreetArt');
-mongoose.connection.on('error',console.error.bind(console, 'connection error:'));
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 mongoose.connection.once('open', () => { console.log('Database Connected'); });
 
 
 
 app.set('view engine', 'ejs');
-app.set('views',path.join(__dirname,'views'))
+app.set('views', path.join(__dirname, 'views'))
 
 app.engine('ejs', ejsMate);
 
@@ -27,14 +28,24 @@ app.use(express.static('public'));
 app.use(methodoverride('_method'));
 app.use(express.json());
 
-const validateStreetArt=(req,res,next)=>{
+const validateStreetArt = (req, res, next) => {
 
   const { error } = StreetArtSchema.validate(req.body, { abortEarly: false });
 
   if (error) {
     const msg = error.details.map(el => el.message).join(', ');
-    return res.status(400).json({ error: msg });
-  }else{
+    res.render('Arts/error', { statusCode: 400, message: msg });
+  } else {
+    next()
+  }
+}
+
+const validateComment = (req, res, next) => {
+  const { error } = commentSchema.validate(req.body, { abortEarly: false });
+  if (error) {
+    const msg = error.details.map(el => el.message).join(', '); 
+    res.render('Arts/error', { statusCode: 400, message: msg });
+  } else {
     next()
   }
 }
@@ -49,7 +60,7 @@ app.get('/AllStreetArts', catchAsync(async (req, res, next) => {
 app.get('/AllStreetArts/newArt', (req, res) => {
   res.render('Arts/newArt');
 });
-app.post("/AllStreetArts", catchAsync(async (req, res, next) => {
+app.post("/AllStreetArts",validateStreetArt, catchAsync(async (req, res, next) => {
 
   try {
     console.log(req.body);
@@ -64,21 +75,22 @@ app.post("/AllStreetArts", catchAsync(async (req, res, next) => {
 
 
 app.get('/AllStreetArts/:id', catchAsync(async (req, res, next) => {
-    const { id } = req.params;
-    const Art = await StreetArt.findById(id);
-    res.render("Arts/eachArt", { Art });
+  const { id } = req.params;
+  const Art = await StreetArt.findById(id).populate('comments');
+  res.render("Arts/eachArt", { Art });
 }));
 
 app.get("/AllStreetArts/:id/editArt", catchAsync(async (req, res, next) => {
-    const { id } = req.params;
-    const Art = await StreetArt.findById(id);
-    res.render("Arts/editArt", { Art });
+  const { id } = req.params;
+  const Art = await StreetArt.findById(id);
+  res.render("Arts/editArt", { Art });
 }));
-app.put("/AllStreetArts/:id", catchAsync(async (req, res, next) => {
-  console.log("Received Data:", req.body); // Check what is being received
+
+app.put("/AllStreetArts/:id",validateStreetArt, catchAsync(async (req, res, next) => {
+  console.log("Received Data:", req.body);
 
   const { id } = req.params;
-  const updatedArt = await StreetArt.findByIdAndUpdate(id, req.body.StreetArt, {
+  const updatedArt = await StreetArt.findByIdAndUpdate(id, {...req.body.StreetArt}, {
     runValidators: true,
     new: true
   });
@@ -93,11 +105,31 @@ app.put("/AllStreetArts/:id", catchAsync(async (req, res, next) => {
 
 
 app.delete("/AllStreetArts/:id", catchAsync(async (req, res, next) => {
-    const { id } = req.params;
-    const Art = await StreetArt.findByIdAndDelete(id);
-    res.redirect(`/AllStreetArts`);
+  const { id } = req.params;
+  const Art = await StreetArt.findByIdAndDelete(id);
+  res.redirect(`/AllStreetArts`);
 }));
 
+app.post("/AllStreetArts/:id/comment",validateComment, catchAsync(async (req, res, next) => {
+  try {
+    const Art = await StreetArt.findById(req.params.id)
+    const commentData = req.body.comment;
+    const comment = new comments(commentData);
+    Art.comments.push(comment);
+    await comment.save();
+    await Art.save();
+    res.redirect(`/AllStreetArts/${Art._id}`);
+  } catch (err) {
+    console.log(err)
+  }
+}));
+
+app.delete("/AllStreetArts/:id/comment/:commentId", catchAsync(async (req, res, next) => {
+  const { id, commentId } = req.params;
+  await StreetArt.findByIdAndUpdate(id,{$pull:{comments:commentId}}); 
+  await comments.findByIdAndDelete(commentId);
+  res.redirect(`/AllStreetArts/${id}`);
+}));
 
 
 app.use((req, res, next) => {
@@ -108,9 +140,8 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render('Arts/error', { statusCode, message });
 });
 app.all('*', (req, res, next) => {
-  next(new ExpressError('Page not found!!',404));
-
+  next(new ExpressError('Page not found!!', 404));
 })
 app.listen(PORT, () => {
-    console.log('listening to: ',PORT)
+  console.log('listening to: ', PORT)
 })

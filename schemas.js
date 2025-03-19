@@ -8,5 +8,12 @@ exports.StreetArtSchema = Joi.object({
       artist_name: Joi.string().trim().required(),
       date_created: Joi.date().iso().required(),
       image_url: Joi.string().uri().required()
-    })
+    }).required()
   });
+
+module.exports.commentSchema = Joi.object({
+  comment: Joi.object({
+    body: Joi.string().trim().required(),
+    rating: Joi.number().min(1).max(5).required()
+  }).required()
+})

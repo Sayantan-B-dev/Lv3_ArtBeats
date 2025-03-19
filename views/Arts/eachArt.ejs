@@ -31,13 +31,46 @@
     </div>
 </div>
 
-
-    
+<div class="bottom-section">
+    <form class="comment-form" action="/AllStreetArts/<%= Art._id %>/comment" method="POST">
+        <div class="rating-section">
+            <label for="rating">Rate this Art:</label>
+            <input type="range" id="rating" name="comment[rating]" min="1" max="5" step="1" value="3" oninput="this.nextElementSibling.value = this.value">
+            <output>3</output>
+        </div>
+        <div class="comment-section">
+            <label for="comment">Leave a Comment</label>
+            <textarea name="comment[body]" id="comment" cols="30" rows="5" required></textarea>
+        </div>
+        <button class="btn each-page-btn" type="submit">Submit</button>
+    </form>
+    <div class="comments-display">
+        <% if (Art.comments && Art.comments.length > 0) { %>
+            <% for (let c of Art.comments) { %>
+                <div class="comment-card">
+                    <div class="comment-rating">
+                        <strong>Rating:</strong> <%= c.rating %>/5
+                    </div>
+                    <div class="comment-body">
+                        <p><strong>Comment:</strong> <%= c.body %></p>
+                    </div>
+                    <form action="/AllStreetArts/<%= Art._id %>/comment/<%= c._id %>?_method=DELETE" method="POST">
+                        <button class="btn each-page-btn dlt-btn rmv-btn">Delete</button>
+                    </form>
+                </div>
+            <% } %>
+        <% } else { %>
+            <p class="no-comments">No comments yet. Be the first to leave one!</p>
+        <% } %>
+    </div>
+</div>
 <div class="two-button">
-    <a href="/AllStreetArts/<%= Art._id %>/editArt"><button class="btn">Edit Art</button></a>  
-    <a href="/AllStreetArts"><button class="btn">All Arts</button></a>
+    <a href="/AllStreetArts/<%= Art._id %>/editArt"><button class="btn each-page-btn">Edit Art</button></a>  
+    <a href="/AllStreetArts"><button class="btn each-page-btn">All Arts</button></a>
     <form action="/AllStreetArts/<%= Art._id %>?_method=DELETE" method="POST">
-        <button class="rmv-btn btn" type="submit">Remove Art</button>
+        <button class="rmv-btn btn each-page-btn" type="submit">Remove Art</button>
     </form>
 </div>
+    
+
 
