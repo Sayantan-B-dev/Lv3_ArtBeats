@@ -1,11 +1,14 @@
-
 const express = require('express');
+const app = express();
 const PORT = 3000;
 const path = require('path');
+
+const session = require('express-session');
+const flash = require('connect-flash');
 const mongoose = require('mongoose');
-const app = express();
 const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate')
+
 const ExpressError = require("./utils/ExpressErrors.js");
 const ArtBeatsRoutes = require('./routes/ArtBeats'); 
 const CommentRoutes = require('./routes/Comment.Js'); 
@@ -26,14 +29,26 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 app.use(express.static("public"));
 
+const sessionConfig = {
+  secret: 'thisshouldbeabetter',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,//to prevent from accessing the cookie from the client side
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+  }
+}
+app.use(session(sessionConfig))
+app.use(flash()); 
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+})
 
 app.use('/ArtBeats', ArtBeatsRoutes);
 app.use('/ArtBeats/:id/comment', CommentRoutes);
-
-
-
-
-
 
 
 app.use((req, res, next) => {

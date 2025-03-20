@@ -103,3 +103,40 @@
     font-size: 1.1rem;
     color: #3c5be7;
 }
+
+
+.alert {
+    display: none;
+    position: fixed;
+    bottom: 10%;
+    left: 10px;
+    width: fit-content;
+    height: 10%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.alert-success {
+    background-color: #2bc54f;
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+}
+
+.alert-danger {
+    background-color: #cc0a1e;
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+}
+
+
+.alert.hide {
+    display: none;
+}

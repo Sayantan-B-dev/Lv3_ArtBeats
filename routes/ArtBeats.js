@@ -23,28 +23,38 @@ router.get('/', catchAsync(async (req, res, next) => {
 router.get('/newArt', (req, res) => {
     res.render('Arts/newArt');
 });
-router.post("", validateArtBeats, catchAsync(async (req, res, next) => {
+router.post("/", validateArtBeats, catchAsync(async (req, res, next) => {
     try {
         console.log(req.body);
         const newArt = new ArtBeats(req.body.ArtBeats);
         await newArt.save();
+        req.flash('success', 'Successfully posted new Art!');
         res.redirect(`/ArtBeats/${newArt._id}`);
     } catch (err) {
         next(err);
     }
 }));
-;
+
 
 
 router.get('/:id', catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const Art = await ArtBeats.findById(id).populate('comments');
+    if(!Art){
+        req.flash('error', 'Cannot find that Art!');
+        return res.redirect('/ArtBeats');
+    }
     res.render("Arts/eachArt", { Art });
 }));
 
 router.get("/:id/editArt", catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const Art = await ArtBeats.findById(id);
+    if(!Art){
+        req.flash('error', 'Cannot find that Art!');
+        return res.redirect('/ArtBeats');
+    }
+    req.flash('success', 'Successfully posted new Art!');
     res.render("Arts/editArt", { Art });
 }));
 
@@ -56,12 +66,13 @@ router.put("/:id", validateArtBeats, catchAsync(async (req, res, next) => {
         runValidators: true,
         new: true
     });
-
+    
     if (!updatedArt) {
         throw new ExpressError("Art not found", 404);
     }
 
-    console.log("Updated Art:", updatedArt); 
+    console.log("Updated Art:", updatedArt);
+    req.flash('success', 'Successfully updated Art!');
     res.redirect(`/ArtBeats/${updatedArt._id}`);
 }));
 
@@ -69,6 +80,10 @@ router.put("/:id", validateArtBeats, catchAsync(async (req, res, next) => {
 router.delete("/:id", catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const Art = await ArtBeats.findByIdAndDelete(id);
+    if (!Art) {
+        throw new ExpressError("Art not found", 404);
+    }
+    req.flash('success', 'Successfully deleted Art!');
     res.redirect(`/ArtBeats`);
 }));
 
