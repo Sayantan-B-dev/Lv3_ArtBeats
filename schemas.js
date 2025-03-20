@@ -1,7 +1,7 @@
 const Joi=require('joi')
 
-exports.StreetArtSchema = Joi.object({
-    StreetArt: Joi.object({
+exports.ArtBeatsSchema = Joi.object({
+    ArtBeats: Joi.object({
       title: Joi.string().trim().required(),
       description: Joi.string().trim().required(),
       location: Joi.string().trim().required(),

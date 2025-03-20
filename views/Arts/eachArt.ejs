@@ -32,7 +32,7 @@
 </div>
 
 <div class="bottom-section">
-    <form class="comment-form" action="/AllStreetArts/<%= Art._id %>/comment" method="POST">
+    <form class="comment-form" action="/ArtBeats/<%= Art._id %>/comment" method="POST">
         <div class="rating-section">
             <label for="rating">Rate this Art:</label>
             <input type="range" id="rating" name="comment[rating]" min="1" max="5" step="1" value="3" oninput="this.nextElementSibling.value = this.value">
@@ -54,7 +54,7 @@
                     <div class="comment-body">
                         <p><strong>Comment:</strong> <%= c.body %></p>
                     </div>
-                    <form action="/AllStreetArts/<%= Art._id %>/comment/<%= c._id %>?_method=DELETE" method="POST">
+                    <form action="/ArtBeats/<%= Art._id %>/comment/<%= c._id %>?_method=DELETE" method="POST">
                         <button class="btn each-page-btn dlt-btn rmv-btn">Delete</button>
                     </form>
                 </div>
@@ -65,9 +65,9 @@
     </div>
 </div>
 <div class="two-button">
-    <a href="/AllStreetArts/<%= Art._id %>/editArt"><button class="btn each-page-btn">Edit Art</button></a>  
-    <a href="/AllStreetArts"><button class="btn each-page-btn">All Arts</button></a>
-    <form action="/AllStreetArts/<%= Art._id %>?_method=DELETE" method="POST">
+    <a href="/ArtBeats/<%= Art._id %>/editArt"><button class="btn each-page-btn">Edit Art</button></a>  
+    <a href="/ArtBeats"><button class="btn each-page-btn">All Arts</button></a>
+    <form action="/ArtBeats/<%= Art._id %>?_method=DELETE" method="POST">
         <button class="rmv-btn btn each-page-btn" type="submit">Remove Art</button>
     </form>
 </div>

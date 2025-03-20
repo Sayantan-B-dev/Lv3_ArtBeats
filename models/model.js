@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const comment = require("./comment");
 const Schema = mongoose.Schema;
 
-const StreetArtSchema = new Schema({
+const ArtBeatsSchema = new Schema({
   title: {
     type: String,
     required: true,
@@ -36,7 +36,7 @@ const StreetArtSchema = new Schema({
   ],
 });
 
-StreetArtSchema.post("findOneAndDelete", async function (doc) {
+ArtBeatsSchema.post("findOneAndDelete", async function (doc) {
   if(doc){
     await comment.deleteMany({
       _id:  {
@@ -45,4 +45,4 @@ StreetArtSchema.post("findOneAndDelete", async function (doc) {
     });
   }
 });
-module.exports = mongoose.model("StreetArt", StreetArtSchema);
+module.exports = mongoose.model("ArtBeats", ArtBeatsSchema);
