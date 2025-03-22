@@ -1,12 +1,19 @@
 <!-- Navbar -->
 <nav class="navbar">
     <div class="nav-content">
-        <a href="#" class="logo">StreetArts</a>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
+        <a href="#" class="logo">ArtBeats</a>
+        <div class="nav-links">
+            <li><a href="/ArtBeats">Home</a></li>
             <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
             <li><a href="#">Contact</a></li>
-        </ul>
+            <div>
+                <% if(!currentUser) {%>
+                <a href="/login"><button class="auth-btn">Log In</button></a>
+                <a href="/register"><button class="auth-btn">Register</button></a>
+                <% }else{ %>
+                <a href="/logout"><button class="auth-btn">Log out</button></a>
+                <% } %>
+            </div>
+        </div>
     </div>
 </nav>

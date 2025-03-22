@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router({mergeParams:true});
 const catchAsync = require("../utils/catchAsync.js");
-const ArtBeats = require('../models/model');
-const comments = require('../models/comment');
-const { ArtBeatsSchema,commentSchema } = require('../schemas');
+const ArtBeats = require('../models/postModel.js');
+const comments = require('../models/commentModel.js');
+const { ArtBeatsSchema,commentSchema } = require('../schemas.js');
 
 
 const validateComment = (req, res, next) => {

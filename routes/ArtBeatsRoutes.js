@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router({mergeParams:true});
 const catchAsync = require("../utils/catchAsync.js");
 const ExpressError = require("../utils/ExpressErrors.js");
-const ArtBeats = require('../models/model.js');
+const ArtBeats = require('../models/postModel.js');
 const { ArtBeatsSchema,commentSchema } = require('../schemas.js');
+const {isLoggedIn}=require('../middleware')
 
 
 const validateArtBeats = (req, res, next) => {
@@ -20,10 +21,10 @@ router.get('/', catchAsync(async (req, res, next) => {
     const Arts = await ArtBeats.find({})
     res.render('Arts/allArts', { Arts });
 }));
-router.get('/newArt', (req, res) => {
+router.get('/newArt', isLoggedIn , (req, res) => {
     res.render('Arts/newArt');
 });
-router.post("/", validateArtBeats, catchAsync(async (req, res, next) => {
+router.post("/", isLoggedIn, validateArtBeats, catchAsync(async (req, res, next) => {
     try {
         console.log(req.body);
         const newArt = new ArtBeats(req.body.ArtBeats);
@@ -37,7 +38,7 @@ router.post("/", validateArtBeats, catchAsync(async (req, res, next) => {
 
 
 
-router.get('/:id', catchAsync(async (req, res, next) => {
+router.get('/:id',  catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const Art = await ArtBeats.findById(id).populate('comments');
     if(!Art){
@@ -47,7 +48,7 @@ router.get('/:id', catchAsync(async (req, res, next) => {
     res.render("Arts/eachArt", { Art });
 }));
 
-router.get("/:id/editArt", catchAsync(async (req, res, next) => {
+router.get("/:id/editArt", isLoggedIn, catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const Art = await ArtBeats.findById(id);
     if(!Art){
@@ -58,26 +59,21 @@ router.get("/:id/editArt", catchAsync(async (req, res, next) => {
     res.render("Arts/editArt", { Art });
 }));
 
-router.put("/:id", validateArtBeats, catchAsync(async (req, res, next) => {
-    console.log("Received Data:", req.body);
-
+router.put("/:id", isLoggedIn, validateArtBeats, catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const updatedArt = await ArtBeats.findByIdAndUpdate(id, { ...req.body.ArtBeats }, {
         runValidators: true,
         new: true
     });
-    
     if (!updatedArt) {
         throw new ExpressError("Art not found", 404);
     }
-
-    console.log("Updated Art:", updatedArt);
     req.flash('success', 'Successfully updated Art!');
     res.redirect(`/ArtBeats/${updatedArt._id}`);
 }));
 
 
-router.delete("/:id", catchAsync(async (req, res, next) => {
+router.delete("/:id", isLoggedIn, catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const Art = await ArtBeats.findByIdAndDelete(id);
     if (!Art) {

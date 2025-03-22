@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const comment = require("./comment");
+const comment = require("./commentModel");
 const Schema = mongoose.Schema;
 
 const ArtBeatsSchema = new Schema({
@@ -27,6 +27,10 @@ const ArtBeatsSchema = new Schema({
   image_url: {
     type: String,
     required: true,
+  },
+  author:{
+    type:Schema.Types.ObjectId,
+    ref:'User'//it enables .populate('author')
   },
   comments: [
     {
