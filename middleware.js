@@ -1,4 +1,4 @@
-const ArtBeats = require('./models/postModel.js');
+const ArtBeats = require('./models/ArtModel.js');
 const comments = require('./models/commentModel.js');
 const { ArtBeatsSchema,commentSchema } = require('./schemas.js');
 const ExpressError = require("./utils/ExpressErrors.js");

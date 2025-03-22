@@ -14,6 +14,6 @@ exports.ArtBeatsSchema = Joi.object({
 module.exports.commentSchema = Joi.object({
   comment: Joi.object({
     body: Joi.string().trim().required(),
-    rating: Joi.number().min(1).max(5).required()
+    rating: Joi.number().min(0).max(5).required()
   }).required()
 })
