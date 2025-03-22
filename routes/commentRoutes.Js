@@ -3,23 +3,16 @@ const router = express.Router({mergeParams:true});
 const catchAsync = require("../utils/catchAsync.js");
 const ArtBeats = require('../models/postModel.js');
 const comments = require('../models/commentModel.js');
-const { ArtBeatsSchema,commentSchema } = require('../schemas.js');
+const {isLoggedIn,isCommentAuthor,validateComment}=require('../middleware')
 
 
-const validateComment = (req, res, next) => {
-    const { error } = commentSchema.validate(req.body, { abortEarly: false });
-    if (error) {
-        const msg = error.details.map(el => el.message).join(', ');
-        res.render('Arts/error', { statusCode: 400, message: msg });
-    } else {
-        next()
-    }
-}
-router.post("/", validateComment, catchAsync(async (req, res, next) => {
+
+router.post("/",isLoggedIn, validateComment, catchAsync(async (req, res, next) => {
     try {
         const Art = await ArtBeats.findById(req.params.id)
         const commentData = req.body.comment;
         const comment = new comments(commentData);
+        comment.author=req.user._id//important
         Art.comments.push(comment);
         await comment.save();
         await Art.save();
@@ -28,7 +21,7 @@ router.post("/", validateComment, catchAsync(async (req, res, next) => {
         console.log(err)
     }
 }));
-router.delete("/:commentId", catchAsync(async (req, res, next) => {
+router.delete("/:commentId",isLoggedIn,isCommentAuthor, catchAsync(async (req, res, next) => {
     const { id, commentId } = req.params;
     await ArtBeats.findByIdAndUpdate(id, { $pull: { comments: commentId } });
     await comments.findByIdAndDelete(commentId);

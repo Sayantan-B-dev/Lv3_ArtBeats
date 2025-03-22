@@ -1,22 +1,22 @@
 .each-art-card {
     width: 50%;
-    background-color:rgb(228, 220, 252);
+    height: 100%;
+    background-color:rgb(210, 196, 252);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 3px solid white;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: space-around;
     gap: 20px;
     overflow: hidden;
-    z-index: 1;
+    z-index: 33;
 }
 
 .each-art-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(0px);
     box-shadow: 0 2px 12px rgb(229, 255, 0);
 }
 
@@ -25,93 +25,90 @@
     aspect-ratio: 1 / 1;
     object-fit: cover;
     display: block;
-    border-right: 3px solid rgb(0, 0, 0);
-    border-bottom-right-radius: 12px;
-    border-top-right-radius: 12px;
+    margin: auto;
+    border: 1px solid rgb(0, 0, 0);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    margin-top:10px;
+    border-top-right-radius: 40px;
+    border-bottom-left-radius: 40px;
     transition: transform 0.3s ease;
     transform-origin: center left;
 }
 .each-art-card:hover .each-card-image{
-    transform: scale(1.03);  
+    transform: scale(1.01);  
 }
 
 
 .each-card-text{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
     position: relative;
     z-index: 2;  
-    margin-right: auto;
-    margin-left: auto;
-    border-radius: 10px;
+    margin-right:10px; 
+    margin-left: 10px;
 }
 
-.each-card-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 0.8rem;
-    margin-top: auto;
-}
-
-.each-art-title {
+.each-art-date,.each-art-description {
+    border-radius: 5px;
+    background-color:rgb(255, 255, 255);
     color: #000000;
-    font-size: 1.4rem;
     margin: 0;
     padding: 5px;
-    border-radius: 10px;
-    background-color:rgb(255, 255, 255);
-    border-right: 2px solid #000000;
-    border-bottom: 2px solid #000000;
+    border-left: 2px solid #000000;
+    border-bottom: 2px dotted #000000;
 }
-
 .each-art-date {
-    color: #000000;
     font-size: 0.9rem;
     margin-top:5px;
     font-style: italic;
 }
-
 .each-art-description {
-    color: #000000;
-    line-height: 1.6;
+    line-height: 1.2;
+    letter-spacing: 0px;
     padding: 5px;
-    background-color:rgb(255, 255, 255);
-    border-right: 2px solid #000000;
-    border-bottom: 2px solid #000000;
+    margin-bottom: 20px;
+
+}
+
+.each-art-header{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 0.5rem;
+
 }
 
 .each-card-footer {
+    border-top: 1px solid #000000;
+    padding: 5px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
+    width: 100%;
+    justify-content: space-around;
+    align-items: start;
+    gap: 0.5rem;
     color: #000000;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     margin-top: auto;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
-.each-artist-info, .location-info {
+.each-artist-info, .each-location-info,.each-username-info {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-.each-material-icons {
-    font-size: 1.1rem;
-    color: #3c5be7;
+.material-icons {
+    font-size: 0.5rem;
+    color: #000000 ;
 }
 
-.two-button{
+.three-button{
     display: flex;
     flex-direction: row;
     align-items: end;
@@ -186,6 +183,9 @@
 }
 
 
+#comment{
+    color: white;
+}
 .comments-display{
     display: flex;
     flex-direction: column;
@@ -193,9 +193,9 @@
     padding: 1rem;
     border-radius: 15px;
     border:1px white solid;
-    height: 200px;
-    width: 50%;
+    height: 300px;
     overflow-x: auto;
+    margin: auto;
 }
 .comments-display::-webkit-scrollbar {
     height: 8px;
@@ -232,7 +232,30 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    text-wrap: wrap;
+    overflow-x: scroll;
+    padding: 5px;
 }
+.comment-body::-webkit-scrollbar {
+    width: 8px; /* Width of vertical scrollbar */
+    height: 8px; /* Height of horizontal scrollbar */
+}
+
+.comment-body::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scroll thumb */
+    border-radius: 4px; /* Roundness of the scroll thumb */
+}
+
+.comment-body::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker color on hover */
+}
+
+.comment-body::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the scrollbar track */
+    border-radius: 4px;
+}
+
+
 button{
     font-weight: 200!important;
 }

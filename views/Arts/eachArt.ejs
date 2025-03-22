@@ -1,37 +1,40 @@
 <% layout('layouts/boilerplate') %>
-<h1 class="page-head"><%= Art.title %></h1>
+<h2 class="page-head"><%= Art.title %></h2>
 <div class="each-art-card">
     <div>
         <img class="each-card-image" src="<%= Art.image_url %>" alt="">
     </div>
     <div class="each-card-text">
-        <div class="each-card-header">
-            <h2 class="each-art-title">
-                <%= Art.title %>
-            </h2>
+        <div class="each-art-header">
             <div class="each-art-date">
-                <%= Art.date_created.toLocaleDateString() %>
+                <h4>Created date:</h4>
+                <p><%= Art.date_created.toLocaleDateString() %></p>
+            </div>
+            <div class="each-art-description">
+                <p><%= Art.description %></p>
             </div>
         </div>
         
-        <p class="each-card-text each-art-description">
-            <%= Art.description %>
-        </p>
 
         <div class="each-card-footer">
             <div class="each-artist-info">
                 <span class="material-icons">person</span>
-                <%= Art.artist_name %>
+                <p><%= Art.artist_name %></p>
             </div>
             <div class="each-location-info">
                 <span class="material-icons">place</span>
-                <%= Art.location %>
+                <p><%= Art.location %></p>
+            </div>
+            <div class="each-username-info">
+                <span class="material-icons">copyright</span>
+                <p><%= Art.author.username %></p>
             </div>
         </div>
     </div>
 </div>
 
 <div class="bottom-section">
+    <% if(currentUser){ %>
     <form class="comment-form" action="/ArtBeats/<%= Art._id %>/comment" method="POST">
         <div class="rating-section">
             <label for="rating">Rate this Art:</label>
@@ -40,23 +43,29 @@
         </div>
         <div class="comment-section">
             <label for="comment">Leave a Comment</label>
-            <textarea name="comment[body]" id="comment" cols="30" rows="5" required></textarea>
+            <textarea name="comment[body]" id="comment" rows="10" required></textarea>
         </div>
         <button class="btn each-page-btn" type="submit">Submit</button>
     </form>
+    <% } %>
     <div class="comments-display">
         <% if (Art.comments && Art.comments.length > 0) { %>
             <% for (let c of Art.comments) { %>
                 <div class="comment-card">
                     <div class="comment-rating">
-                        <strong>Rating:</strong> <%= c.rating %>/5
+                        <strong>Rating:</strong> <p><%= c.rating %>/5</p>
+                    </div>
+                    <div class="comment-rating">
+                        <strong>by:</strong> <p><%= c.author.username %></p>
                     </div>
                     <div class="comment-body">
                         <p><strong>Comment:</strong> <%= c.body %></p>
                     </div>
+                    <% if(currentUser && c.author.equals(currentUser._id)) {%> 
                     <form action="/ArtBeats/<%= Art._id %>/comment/<%= c._id %>?_method=DELETE" method="POST">
                         <button class="btn each-page-btn dlt-btn rmv-btn">Delete</button>
                     </form>
+                    <% } %>
                 </div>
             <% } %>
         <% } else { %>
@@ -64,12 +73,16 @@
         <% } %>
     </div>
 </div>
-<div class="two-button">
+<div class="three-button">
+    <% if(currentUser && Art.author.equals(currentUser._id)) {%> 
     <a href="/ArtBeats/<%= Art._id %>/editArt"><button class="btn each-page-btn">Edit Art</button></a>  
+    <% } %>
     <a href="/ArtBeats"><button class="btn each-page-btn">All Arts</button></a>
+    <% if(currentUser && Art.author.equals(currentUser._id)) {%> 
     <form action="/ArtBeats/<%= Art._id %>?_method=DELETE" method="POST">
         <button class="rmv-btn btn each-page-btn" type="submit">Remove Art</button>
     </form>
+    <% } %>
 </div>
     
 

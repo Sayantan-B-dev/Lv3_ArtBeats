@@ -34,7 +34,7 @@ router.post(
     passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), 
     (req, res) => {//IMPORTANT
     req.flash('success', 'Welcome back to ArtBeats')
-    const redirectUrl=res.locals.returnTo
+    const redirectUrl=res.locals.returnTo || '/ArtBeats'
     delete req.session.returnTo
     res.redirect(redirectUrl)
 })
