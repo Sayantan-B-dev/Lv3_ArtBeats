@@ -25,6 +25,19 @@ const ArtBeatsSchema = new Schema({
     type: String,
     required: true,
   },
+  geometry: {
+    type: {
+        type: String,
+        enum: ['Point'], // Ensures it is always a 'Point'
+        default: 'Point',
+        required: true
+    },
+    coordinates: {
+        type: [Number], // An array of numbers [longitude, latitude]
+        required: true,
+        default: [0, 0]
+    }
+  },
   artist_name: {
     type: String,
     required: true,

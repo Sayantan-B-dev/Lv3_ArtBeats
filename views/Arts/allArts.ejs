@@ -3,7 +3,11 @@
 <div class="cards">
     <%  for(let Art of Arts){ %>
         <div class="art-card" onclick="window.location.href='/ArtBeats/<%= Art._id %>';">
-            <img class="card-image" src="<%= Art.images[0].url %>" alt="">
+            <%if(Art.images.length){%>
+                <img class="card-image" src="<%= Art.images[0].url %>" alt="">
+            <%}else{%>
+                <img class="card-image" src="/images/noImage.jpeg" alt="">
+            <%}%>
             <div class="card-text card-header">
                 <h2 class="art-title">
                     <%= Art.title %>

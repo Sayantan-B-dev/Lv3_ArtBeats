@@ -1,5 +1,7 @@
 const ArtBeats = require('../models/ArtModel.js');
 const {cloudinary}=require('../cloudinary')
+const maptilerClient = require("@maptiler/client");
+maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 
 module.exports.index=async (req, res, next) => {
     const Arts = await ArtBeats.find({})
@@ -12,13 +14,16 @@ module.exports.newArt=(req, res) => {
 
 module.exports.createArt=async (req, res, next) => {
     try {
+        const geoData=await maptilerClient.geocoding.forward(req.body.ArtBeats.location,{limit:1})
         const newArt = new ArtBeats(req.body.ArtBeats);
+        newArt.geometry = geoData.features.length ? geoData.features[0].geometry : {type: 'Point',coordinates: [0, 0]};
         newArt.images=req.files.map(f=>({
             url: f.path,
             filename: f.filename
         }))
         newArt.author=req.user._id//added to track each author..its newArt.author and req.user._id note this
         await newArt.save();
+        console.log(newArt)
         req.flash('success', 'Successfully posted new Art!');
         res.redirect(`/ArtBeats/${newArt._id}`);
     } catch (err) {
@@ -56,11 +61,19 @@ module.exports.editEachArt=async (req, res, next) => {
 
 module.exports.updateEachArt=async (req, res, next) => {
     const { id } = req.params;
+
+    const geoData = await maptilerClient.geocoding.forward(req.body.ArtBeats.location, { limit: 1 });
+    
     const updatedArt = await ArtBeats.findByIdAndUpdate(
         id, 
-        { ...req.body.ArtBeats }, 
+        {
+            ...req.body.ArtBeats ,
+            geometry: geoData.features.length ? geoData.features[0].geometry : {type: 'Point',coordinates: [0, 0]}
+        }, // Add geometry inside update
         {runValidators: true,new: true}
     );
+
+    
     if (!updatedArt) {
         req.flash('error', 'Art not found or you do not have permission to edit it.');
         return res.redirect('/ArtBeats');
@@ -71,7 +84,6 @@ module.exports.updateEachArt=async (req, res, next) => {
         filename: f.filename
     }))
     updatedArt.images.push(...imgs)
-    await updatedArt.save()
 
     if(req.body.deleteImages){
         for(let filename of req.body.deleteImages){
@@ -81,6 +93,8 @@ module.exports.updateEachArt=async (req, res, next) => {
             $pull:{images:{filename:{$in: req.body.deleteImages}}}
         })
     }
+
+    await updatedArt.save()
     
     req.flash('success', 'Successfully updated Art!');
     res.redirect(`/ArtBeats/${updatedArt._id}`);

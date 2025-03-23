@@ -36,3 +36,6 @@ function updateFileName() {
         display.textContent = "No file chosen";
     }
 }
+
+
+//for map api in eachArt

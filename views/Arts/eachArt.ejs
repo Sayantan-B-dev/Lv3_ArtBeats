@@ -1,143 +1,161 @@
 <% layout('layouts/boilerplate') %>
+<script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.0.3/maptiler-sdk.umd.min.js"></script>
+    <link crossorigin="anonymous" href="https://cdn.maptiler.com/maptiler-sdk-js/v2.0.3/maptiler-sdk.css"
+        rel="stylesheet">
+
+    <div class="each-art-container">
+        <h2 class="page-head">
+            <%= Art.title %>
+        </h2>
+        <div class="each-art-card">
+            <div class="carousel">
+                <div class="carousel-inner">
+                    <%if(Art.images.length){%>
+                        <% for (let img of Art.images) { %>
+                        <div class="carousel-item">
+                            <img class="each-card-image" src="<%= img.url %>" alt="Artwork Image">
+                        </div>
+                        <% } %>
+                    <%}else{%>
+                        <div class="carousel-item">
+                            <img class="each-card-image" src="/images/noImage.jpeg" alt="image is not available">
+                        </div>
+                    <%}%>
+                </div>
+
+                <% if(Art.images.length>1){ %>
+                    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+                    <button class="next" onclick="moveSlide(1)">&#10095;</button>
+                    <% } %>
+
+            </div>
 
 
-    <h2 class="page-head">
-        <%= Art.title %>
-    </h2>
-    <div class="each-art-card">
-        <div class="carousel">
-            <div class="carousel-inner">
-                <% for (let img of Art.images) { %>
-                    <div class="carousel-item">
-                        <img class="each-card-image" src="<%= img.url %>" alt="Artwork Image">
+            <div class="each-card-text">
+                <div class="each-art-header">
+                    <div class="each-art-date">
+                        <h4>Created date:</h4>
+                        <p>
+                            <%= Art.date_created.toLocaleDateString() %>
+                        </p>
                     </div>
-                    <% } %>
-            </div>
+                    <div class="each-art-description">
+                        <p>
+                            <%= Art.description %>
+                        </p>
+                    </div>
+                </div>
 
-            <% if(Art.images.length>1){ %>
-                <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
-                <button class="next" onclick="moveSlide(1)">&#10095;</button>
+
+                <div class="each-card-footer">
+                    <div class="each-artist-info">
+                        <span class="material-icons">person</span>
+                        <p>
+                            <%= Art.artist_name %>
+                        </p>
+                    </div>
+                    <div class="each-location-info">
+                        <span class="material-icons">place</span>
+                        <p>
+                            <%= Art.location %>
+                        </p>
+                    </div>
+                    <div class="each-username-info">
+                        <span class="material-icons">copyright</span>
+                        <p>
+                            <%= Art.author.username %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="map"></div>
+
+        <div class="bottom-section">
+            <% if(currentUser){ %>
+                <form class="comment-form" action="/ArtBeats/<%= Art._id %>/comment" method="POST">
+                    <div class="rating-section">
+                        <!--Cant be here if the fieldset is there <label for="rating">Rate this Art:</label>
+                        <input type="range" id="rating" name="comment[rating]" min="1" max="5" step="1" value="3"
+                            oninput="this.nextElementSibling.value = this.value">
+                                                <output>3</output> -->
+                    </div>
+                    <fieldset class="starability-growRotate">
+                        <legend for="rating">Rate this Art:</legend>
+                        <input type="radio" id="no-rate" class="input-no-rate" name="comment[rating]" value="0" checked
+                            aria-label="No rating." />
+                        <input type="radio" id="first-rate1" name="comment[rating]" value="1" />
+                        <label for="first-rate1" title="Terrible">1 star</label>
+                        <input type="radio" id="first-rate2" name="comment[rating]" value="2" />
+                        <label for="first-rate2" title="Not good">2 stars</label>
+                        <input type="radio" id="first-rate3" name="comment[rating]" value="3" />
+                        <label for="first-rate3" title="Average">3 stars</label>
+                        <input type="radio" id="first-rate4" name="comment[rating]" value="4" />
+                        <label for="first-rate4" title="Very good">4 stars</label>
+                        <input type="radio" id="first-rate5" name="comment[rating]" value="5" />
+                        <label for="first-rate5" title="Amazing">5 stars</label>
+                    </fieldset>
+                    <div class="comment-section">
+                        <label for="comment">Leave a Comment</label>
+                        <textarea name="comment[body]" id="comment" rows="10" required>
+                        </textarea>
+                    </div>
+                    <button class="btn each-page-btn" type="submit">Submit</button>
+                </form>
                 <% } %>
-
+                    <div class="comments-display">
+                        <% if (Art.comments && Art.comments.length> 0) { %>
+                            <% for (let c of Art.comments) { %>
+                                <div class="comment-card">
+                                    <div class="comment-rating">
+                                        <strong>Rating:</strong>
+                                        <p>
+                                            <%= c.rating %>/5
+                                        </p>
+                                    </div>
+                                    <div class="starability-result" data-rating="<%= c.rating %>">
+                                        Rated: <%= c.rating %> stars'
+                                    </div>
+                                    <div class="comment-rating">
+                                        <strong>by:</strong>
+                                        <p>
+                                            <%= c.author.username %>
+                                        </p>
+                                    </div>
+                                    <div class="comment-body">
+                                        <p><strong>Comment:</strong>
+                                            <%= c.body %>
+                                        </p>
+                                    </div>
+                                    <% if(currentUser && c.author.equals(currentUser._id)) {%>
+                                        <form action="/ArtBeats/<%= Art._id %>/comment/<%= c._id %>?_method=DELETE"
+                                            method="POST">
+                                            <button class="btn each-page-btn dlt-btn rmv-btn">Delete</button>
+                                        </form>
+                                        <% } %>
+                                </div>
+                                <% } %>
+                                    <% } else { %>
+                                        <p class="no-comments">No comments yet. Be the first to leave one!</p>
+                                        <% } %>
+                    </div>
         </div>
-
-
-        <div class="each-card-text">
-            <div class="each-art-header">
-                <div class="each-art-date">
-                    <h4>Created date:</h4>
-                    <p>
-                        <%= Art.date_created.toLocaleDateString() %>
-                    </p>
-                </div>
-                <div class="each-art-description">
-                    <p>
-                        <%= Art.description %>
-                    </p>
-                </div>
-            </div>
-
-
-            <div class="each-card-footer">
-                <div class="each-artist-info">
-                    <span class="material-icons">person</span>
-                    <p>
-                        <%= Art.artist_name %>
-                    </p>
-                </div>
-                <div class="each-location-info">
-                    <span class="material-icons">place</span>
-                    <p>
-                        <%= Art.location %>
-                    </p>
-                </div>
-                <div class="each-username-info">
-                    <span class="material-icons">copyright</span>
-                    <p>
-                        <%= Art.author.username %>
-                    </p>
-                </div>
-            </div>
+        <div class="three-button">
+            <% if(currentUser && Art.author.equals(currentUser._id)) {%>
+                <a href="/ArtBeats/<%= Art._id %>/editArt"><button class="btn each-page-btn">Edit Art</button></a>
+                <% } %>
+                    <a href="/ArtBeats"><button class="btn each-page-btn">All Arts</button></a>
+                    <% if(currentUser && Art.author.equals(currentUser._id)) {%>
+                        <form action="/ArtBeats/<%= Art._id %>?_method=DELETE" method="POST">
+                            <button class="rmv-btn btn each-page-btn" type="submit">Remove Art</button>
+                        </form>
+                        <% } %>
         </div>
     </div>
 
-    <div class="bottom-section">
-        <% if(currentUser){ %>
-            <form class="comment-form" action="/ArtBeats/<%= Art._id %>/comment" method="POST">
-                <div class="rating-section">
-                    <!--Cant be here if the fieldset is there <label for="rating">Rate this Art:</label>
-                    <input type="range" id="rating" name="comment[rating]" min="1" max="5" step="1" value="3"
-                        oninput="this.nextElementSibling.value = this.value">
-                                            <output>3</output> -->
-                </div>
-                <fieldset class="starability-growRotate">
-                    <legend for="rating">Rate this Art:</legend>
-                    <input type="radio" id="no-rate" class="input-no-rate" name="comment[rating]" value="0" checked
-                        aria-label="No rating." />
-                    <input type="radio" id="first-rate1" name="comment[rating]" value="1" />
-                    <label for="first-rate1" title="Terrible">1 star</label>
-                    <input type="radio" id="first-rate2" name="comment[rating]" value="2" />
-                    <label for="first-rate2" title="Not good">2 stars</label>
-                    <input type="radio" id="first-rate3" name="comment[rating]" value="3" />
-                    <label for="first-rate3" title="Average">3 stars</label>
-                    <input type="radio" id="first-rate4" name="comment[rating]" value="4" />
-                    <label for="first-rate4" title="Very good">4 stars</label>
-                    <input type="radio" id="first-rate5" name="comment[rating]" value="5" />
-                    <label for="first-rate5" title="Amazing">5 stars</label>
-                </fieldset>
-                <div class="comment-section">
-                    <label for="comment">Leave a Comment</label>
-                    <textarea name="comment[body]" id="comment" rows="10" required>
-                    </textarea>
-                </div>
-                <button class="btn each-page-btn" type="submit">Submit</button>
-            </form>
-            <% } %>
-                <div class="comments-display">
-                    <% if (Art.comments && Art.comments.length> 0) { %>
-                        <% for (let c of Art.comments) { %>
-                            <div class="comment-card">
-                                <div class="comment-rating">
-                                    <strong>Rating:</strong>
-                                    <p>
-                                        <%= c.rating %>/5
-                                    </p>
-                                </div>
-                                <div class="starability-result" data-rating="<%= c.rating %>">
-                                    Rated: <%= c.rating %> stars'
-                                </div>
-                                <div class="comment-rating">
-                                    <strong>by:</strong>
-                                    <p>
-                                        <%= c.author.username %>
-                                    </p>
-                                </div>
-                                <div class="comment-body">
-                                    <p><strong>Comment:</strong>
-                                        <%= c.body %>
-                                    </p>
-                                </div>
-                                <% if(currentUser && c.author.equals(currentUser._id)) {%>
-                                    <form action="/ArtBeats/<%= Art._id %>/comment/<%= c._id %>?_method=DELETE"
-                                        method="POST">
-                                        <button class="btn each-page-btn dlt-btn rmv-btn">Delete</button>
-                                    </form>
-                                    <% } %>
-                            </div>
-                            <% } %>
-                                <% } else { %>
-                                    <p class="no-comments">No comments yet. Be the first to leave one!</p>
-                                    <% } %>
-                </div>
-    </div>
-    <div class="three-button">
-        <% if(currentUser && Art.author.equals(currentUser._id)) {%>
-            <a href="/ArtBeats/<%= Art._id %>/editArt"><button class="btn each-page-btn">Edit Art</button></a>
-            <% } %>
-                <a href="/ArtBeats"><button class="btn each-page-btn">All Arts</button></a>
-                <% if(currentUser && Art.author.equals(currentUser._id)) {%>
-                    <form action="/ArtBeats/<%= Art._id %>?_method=DELETE" method="POST">
-                        <button class="rmv-btn btn each-page-btn" type="submit">Remove Art</button>
-                    </form>
-                    <% } %>
-    </div>
+    <script>
+        const maptilerApiKey = '<%- process.env.MAPTILER_API_KEY %>';
+        const Art = <%- JSON.stringify(Art) %>;
+    </script>
+    <script src="/js/map.js"></script>
