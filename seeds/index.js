@@ -8,21 +8,21 @@ mongoose.connection.once("open", () => { console.log("Database Connected"); });
 
 
 const seedDB = async () => {
-    await ArtBeats.deleteMany({});
+    //await ArtBeats.deleteMany({});
     const modifiedData = data.map((item) => {
         //const randomSeed = Math.floor(Math.random() * 1000000);
         //const image = `https://picsum.photos/seed/${randomSeed}/200/300`;
-        const images=[
-            {
-              url: 'https://res.cloudinary.com/dmzrjuzlt/image/upload/v1742656093/ArtBeats/paafqypve3q1ovpnrdhf.jpg',
-              filename: 'ArtBeats/paafqypve3q1ovpnrdhf'
-            },
-            {
-              url: 'https://res.cloudinary.com/dmzrjuzlt/image/upload/v1742656103/ArtBeats/zlpemxnbvqry3sd8vcdv.png',
-              filename: 'ArtBeats/zlpemxnbvqry3sd8vcdv'
-            }
-          ]
-        return{...item,author:'67de5d8ba03f70bba6871f29', images: images}
+        // const images=[
+        //     {
+        //       url: 'https://res.cloudinary.com/dmzrjuzlt/image/upload/v1742656093/ArtBeats/paafqypve3q1ovpnrdhf.jpg',
+        //       filename: 'ArtBeats/paafqypve3q1ovpnrdhf'
+        //     },
+        //     {
+        //       url: 'https://res.cloudinary.com/dmzrjuzlt/image/upload/v1742656103/ArtBeats/zlpemxnbvqry3sd8vcdv.png',
+        //       filename: 'ArtBeats/zlpemxnbvqry3sd8vcdv'
+        //     }
+        //   ]
+        return{...item,author:'67de5d8ba03f70bba6871f29'}
     });
     await ArtBeats.insertMany(modifiedData);
 }

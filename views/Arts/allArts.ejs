@@ -1,5 +1,10 @@
 <% layout('layouts/boilerplate') %>
+<script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.0.3/maptiler-sdk.umd.min.js"></script>
+<link crossorigin="anonymous" href="https://cdn.maptiler.com/maptiler-sdk-js/v2.0.3/maptiler-sdk.css"
+        rel="stylesheet">
+
 <a href="/ArtBeats/newArt"><button class="btn">Add new art</button></a>
+<div id="map" style="width: 100%; height:400px;"></div>
 <div class="cards">
     <%  for(let Art of Arts){ %>
         <div class="art-card" onclick="window.location.href='/ArtBeats/<%= Art._id %>';">
@@ -20,3 +25,9 @@
         </div>
     <% } %>
 </div>
+
+<script>
+    const maptilerApiKey = '<%- process.env.MAPTILER_API_KEY %>';
+    const Arts = {features: <%- JSON.stringify(Arts) %>};
+</script>
+<script src="/js/clusterMap.js"></script>

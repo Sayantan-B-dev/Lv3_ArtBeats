@@ -12,6 +12,9 @@ imageSchema.virtual('thumbnail').get(function(){
   return this.url.replace('/upload','/upload/w_200')//make sure to return it
 })//new property thumbnail on image
 
+const options={toJSON:{virtuals:true}}
+
+
 const ArtBeatsSchema = new Schema({
   title: {
     type: String,
@@ -67,7 +70,15 @@ const ArtBeatsSchema = new Schema({
       ref: "Comment",
     },
   ],
-});
+},options);
+
+
+ArtBeatsSchema.virtual('properties.popUpMarkup').get(function(){
+  return `
+  <strong><a href="ArtBeats/${this._id}">${this.title}</a></strong>
+  <p>${this.description.substring(0,15)}...</p>
+  `
+})
 
 ArtBeatsSchema.post("findOneAndDelete", async function (doc) {
   if(doc){
@@ -78,4 +89,6 @@ ArtBeatsSchema.post("findOneAndDelete", async function (doc) {
     });
   }
 });
+
+
 module.exports = mongoose.model("ArtBeats", ArtBeatsSchema);
