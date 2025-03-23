@@ -1,26 +1,44 @@
 <% layout('layouts/boilerplate') %>
 <h1 class="page-head">ADD NEW ART</h1>
-<form class="new-form" action="/ArtBeats" method="POST" style="display:flex; flex-direction: column; max-width: 300px;">
+<!-- enctype=multipart/form-data is important for image -->
+<form class="new-form" action="/ArtBeats" method="POST" enctype="multipart/form-data" style="display:flex; flex-direction: column; max-width: 300px;">
     <p id="form-alert" style="color:red;text-align:center;"></p>
     
-    <label class="new-label" for="title">Title:</label>
-    <input class="new-input" type="text" id="title" name="ArtBeats[title]" placeholder="Title" required />
+    <div>
+        <label class="new-label" for="title">Title:</label>
+        <input class="new-input" type="text" id="title" name="ArtBeats[title]" placeholder="Title" required />
+    </div>
+    
+    <div>
+        <label class="new-label" for="description">Description:</label>
+        <input class="new-input" type="text" id="description" name="ArtBeats[description]"  placeholder="Description" required />
+    </div>
+    
+    <div>
+        <label class="new-label" for="location">Location:</label>
+        <input class="new-input" type="text" id="location" name="ArtBeats[location]" placeholder="Location" required />
+    </div>
+    
+    <div>
+        <label class="new-label" for="artist_name">Artist Name:</label>
+        <input class="new-input" type="text" id="artist_name" name="ArtBeats[artist_name]" placeholder="Artist Name" required />
+    </div>
 
-    <label class="new-label" for="description">Description:</label>
-    <input class="new-input" type="text" id="description" name="ArtBeats[description]"  placeholder="Description" required />
+    <div>   
+        <label class="new-label" for="date_created">Date Created:</label>
+        <input class="new-input" type="date" id="date_created" name="ArtBeats[date_created]" required />
+    </div>
 
-    <label class="new-label" for="location">Location:</label>
-    <input class="new-input" type="text" id="location" name="ArtBeats[location]" placeholder="Location" required />
-
-    <label class="new-label" for="artist_name">Artist Name:</label>
-    <input class="new-input" type="text" id="artist_name" name="ArtBeats[artist_name]" placeholder="Artist Name" required />
-
-    <label class="new-label" for="date_created">Date Created:</label>
-    <input class="new-input" type="date" id="date_created" name="ArtBeats[date_created]" required />
-
-    <label class="new-label" for="image_url">Image URL:</label>
-    <input class="new-input" type="url" id="image_url" name="ArtBeats[image_url]" placeholder="Image URL" required />
-
+    <div class="upload-img-form">
+        <label for="file-upload" class="file-label">
+            <button type="button" class="file-btn" onclick="document.getElementById('file-upload').click();">
+                Choose File
+            </button>
+        </label>
+        <input class="new-label" id="file-upload" type="file" name="image_files" multiple style="display: none;" onchange="updateFileName()">
+        <span id="file-name-display">No file chosen</span>
+    </div>
+    
     <button class="new-button" type="submit">Submit</button>
 </form>
 

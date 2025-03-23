@@ -7,8 +7,9 @@ exports.ArtBeatsSchema = Joi.object({
       location: Joi.string().trim().required(),
       artist_name: Joi.string().trim().required(),
       date_created: Joi.date().iso().required(),
-      image_url: Joi.string().uri().required()
-    }).required()
+      // images: Joi.string().uri().required()
+    }).required(),
+    deleteImages:Joi.array()
   });
 
 module.exports.commentSchema = Joi.object({

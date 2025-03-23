@@ -1,0 +1,116 @@
+.btn {
+    display: inline-block;
+    padding: 5px 10px;
+    background: linear-gradient(135deg, #4a90e2, #2a6ebd);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin: 20px 0;
+    box-shadow: 0 4px 6px rgb(34, 34, 34);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgb(34, 34, 34);
+    background: linear-gradient(135deg, #2a6ebd, #1a4a7a);
+}
+
+.btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn::before {
+    content: "+";
+    margin-right: 10px;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+
+.btn:hover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    animation: buttonGlow 1s ease-in-out;
+}
+
+@keyframes buttonGlow {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+
+
+
+.file-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, #ff7e5f, #ff4a4a);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin: 15px 0 5px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+}
+
+.file-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #ff4a4a, #d83434);
+}
+
+.file-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.file-btn::before {
+    content: "📁"; /* Folder emoji as an icon */
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.file-btn:hover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    animation: shineEffect 1s ease-in-out;
+}
+
+@keyframes shineEffect {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.file-label {
+    display: inline-block;
+    cursor: pointer;
+}

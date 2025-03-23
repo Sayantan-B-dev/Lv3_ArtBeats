@@ -7,6 +7,7 @@
     width: 70%;
 }
 
+
 .new-label {
     font-weight: 600;
     margin-bottom: 0.5rem;
@@ -16,7 +17,7 @@
 
 .new-input {
     padding: 0.8rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
     border: 2px solid #e0e0e0;
     border-radius: 5px;
     font-size: 1rem;
@@ -58,4 +59,15 @@
         margin: 1rem;
         max-width: 90%;
     }
+}
+
+
+.upload-img-form{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+#file-name-display{
+    font-size: 0.7rem;
+    color: white !important;
 }

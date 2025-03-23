@@ -1,30 +1,65 @@
 <% layout('layouts/boilerplate') %>
-<h1 class="page-head">EDIT ART</h1>
-<form class="new-form" action="/ArtBeats/<%= Art._id %>?_method=PUT" method="POST" style="display:flex; flex-direction: column; max-width: 300px;">
-    
-    <p id="form-alert" style="color:red; text-align:center;"></p>
+    <h1 class="page-head">EDIT ART</h1>
+    <form class="new-form" action="/ArtBeats/<%= Art._id %>?_method=PUT" method="POST" enctype="multipart/form-data"
+        style="display:flex; flex-direction: column; max-width: 300px;">
 
-    <label class="new-label" for="title">Title:</label>
-    <input class="new-input" type="text" id="title" name="ArtBeats[title]" placeholder="Title" value="<%= Art.title %>" required />
+        <p id="form-alert" style="color:red; text-align:center;"></p>
+        <div>
+            <label class="new-label" for="title">Title:</label>
+            <input class="new-input" type="text" id="title" name="ArtBeats[title]" placeholder="Title"
+                value="<%= Art.title %>" required />
+        </div>
 
-    <label class="new-label" for="description">Description:</label>
-    <input class="new-input" type="text" id="description" name="ArtBeats[description]" placeholder="Description" value="<%= Art.description %>" required />
+        <div>
+            <label class="new-label" for="description">Description:</label>
+            <input class="new-input" type="text" id="description" name="ArtBeats[description]" placeholder="Description"
+                value="<%= Art.description %>" required />
+        </div>
 
-    <label class="new-label" for="location">Location:</label>
-    <input class="new-input" type="text" id="location" name="ArtBeats[location]" placeholder="Location" value="<%= Art.location %>" required />
+        <div>
+            <label class="new-label" for="location">Location:</label>
+            <input class="new-input" type="text" id="location" name="ArtBeats[location]" placeholder="Location"
+                value="<%= Art.location %>" required />
+        </div>
 
-    <label class="new-label" for="artist_name">Artist Name:</label>
-    <input class="new-input" type="text" id="artist_name" name="ArtBeats[artist_name]" placeholder="Artist Name" value="<%= Art.artist_name %>" required />
-
-    <label class="new-label" for="date_created">Date Created:</label>
-    <input class="new-input" type="date" id="date_created" name="ArtBeats[date_created]" 
-           value="<%= Art.date_created ? Art.date_created.toISOString().slice(0, 10) : '' %>" required />
-
-    <label class="new-label" for="image_url">Image URL:</label>
-    <input class="new-input" type="text" id="image_url" name="ArtBeats[image_url]" placeholder="Image URL" value="<%= Art.image_url %>" required />
-
-    <button class="new-button" type="submit">Submit</button>
-</form>
+        <div>
+            <label class="new-label" for="artist_name">Artist Name:</label>
+            <input class="new-input" type="text" id="artist_name" name="ArtBeats[artist_name]" placeholder="Artist Name"
+                value="<%= Art.artist_name %>" required />
+        </div>
 
 
-<a href="/ArtBeats"><button class="btn">All Arts</button></a>
+        <div class="date_created">
+            <label class="new-label" for="date_created">Date Created:</label>
+            <input class="new-input" type="date" id="date_created" name="ArtBeats[date_created]"
+                value="<%= Art.date_created ? Art.date_created.toISOString().slice(0, 10) : '' %>" required />
+        </div>
+
+
+        <div class="upload-img-form">
+            <label for="file-upload" class="file-label">
+                <button type="button" class="file-btn" onclick="document.getElementById('file-upload').click();">Add images
+                </button>
+            </label>
+            <input class="new-label" id="file-upload" type="file" name="image_files" multiple style="display: none;"
+                onchange="updateFileName()">
+            <span id="file-name-display">No file chosen</span>
+        </div>
+        <div class="dlt-img-container">
+            <p class="dlt-img-txt">Choose images to delete</p>
+            <% Art.images.forEach(function(img, i) { %>
+                <div class="dlt-img-wrapper">
+                    <input type="checkbox" id="image-<%= i %>" name="deleteImages[]" value="<%= img.filename %>">
+                    <label for="image-<%= i %>">
+                        <img src="<%= img.thumbnail %>" alt="Art Image <%= i + 1 %>" class="dlt-img-preview">
+                    </label>
+                </div>
+            <% }) %>
+        </div>
+        
+
+        <button class="new-button" type="submit">Update</button>
+    </form>
+
+
+    <a href="/ArtBeats"><button class="btn">All Arts</button></a>

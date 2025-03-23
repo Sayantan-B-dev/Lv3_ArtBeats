@@ -1,5 +1,5 @@
 const ArtBeats = require('../models/ArtModel.js');
-
+const {cloudinary}=require('../cloudinary')
 
 module.exports.index=async (req, res, next) => {
     const Arts = await ArtBeats.find({})
@@ -12,8 +12,11 @@ module.exports.newArt=(req, res) => {
 
 module.exports.createArt=async (req, res, next) => {
     try {
-        console.log(req.body);
         const newArt = new ArtBeats(req.body.ArtBeats);
+        newArt.images=req.files.map(f=>({
+            url: f.path,
+            filename: f.filename
+        }))
         newArt.author=req.user._id//added to track each author..its newArt.author and req.user._id note this
         await newArt.save();
         req.flash('success', 'Successfully posted new Art!');
@@ -58,15 +61,27 @@ module.exports.updateEachArt=async (req, res, next) => {
         { ...req.body.ArtBeats }, 
         {runValidators: true,new: true}
     );
-    // const updatedArt = await ArtBeats.findOneAndUpdate(
-    //     { _id: id, author: req.user._id }, 
-    //     { ...req.body.ArtBeats }, 
-    //     {runValidators: true,new: true}
-    // );
     if (!updatedArt) {
         req.flash('error', 'Art not found or you do not have permission to edit it.');
         return res.redirect('/ArtBeats');
     }
+
+    const imgs=req.files.map(f=>({
+        url: f.path,
+        filename: f.filename
+    }))
+    updatedArt.images.push(...imgs)
+    await updatedArt.save()
+
+    if(req.body.deleteImages){
+        for(let filename of req.body.deleteImages){
+            await cloudinary.uploader.destroy(filename)
+        }
+        await updatedArt.updateOne({
+            $pull:{images:{filename:{$in: req.body.deleteImages}}}
+        })
+    }
+    
     req.flash('success', 'Successfully updated Art!');
     res.redirect(`/ArtBeats/${updatedArt._id}`);
 }
