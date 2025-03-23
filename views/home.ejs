@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtBeats</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/nav&footer.css">
+    <link rel="stylesheet" href="/css/button.css">
+
+
+    <script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.0.3/maptiler-sdk.umd.min.js"></script>
+    <link href="https://cdn.maptiler.com/maptiler-sdk-js/v2.0.3/maptiler-sdk.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;1,6..96,700&family=Caveat:wght@400..700&family=Forum&family=Freckle+Face&family=Hedvig+Letters+Serif:opsz@12..24&family=Jaro:opsz@6..72&family=Libre+Baskerville&family=Merienda:wght@300..900&family=Modern+Antiqua&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Raleway:ital,wght@0,700;1,700&family=Share+Tech+Mono&family=Unbounded:wght@200..900&display=swap"rel="stylesheet">
+</head>
+<body>
+    <%- include('./partials/navbar.ejs') %>
+    <%- include('./partials/flash.ejs') %>
+
+    <main>
+        <div id="map" style="width: 100%; height:400px;"></div>
+
+        <section class="hero">
+            <h2>Welcome to ArtBeats</h2>
+            <p>Where creativity meets passion. Explore the world of art like never before.</p>
+            <a href="/ArtBeats"><button class="btn">Explore Gallery</button></a>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <h3>Discover Art</h3>
+                <p>Immerse yourself in a diverse collection of artwork from talented artists worldwide.</p>
+            </div>
+            <div class="feature">
+                <h3>Connect with Artists</h3>
+                <p>Engage with creators and learn the stories behind their masterpieces.</p>
+            </div>
+            <div class="feature">
+                <h3>Share Your Passion</h3>
+                <p>Join a community that celebrates creativity and artistic expression.</p>
+            </div>
+        </section>
+    </main>
+
+    <%- include('./partials/footer.ejs') %>
+    <script>
+        const maptilerApiKey = '<%- process.env.MAPTILER_API_KEY %>';
+        const Arts = {features: <%- JSON.stringify(Arts) %>};
+    </script>
+    <script src="/js/clusterMap.js"></script>
+</body>
+</html>

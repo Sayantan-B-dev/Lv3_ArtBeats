@@ -75,8 +75,10 @@ const ArtBeatsSchema = new Schema({
 
 ArtBeatsSchema.virtual('properties.popUpMarkup').get(function(){
   return `
-  <strong><a href="ArtBeats/${this._id}">${this.title}</a></strong>
-  <p>${this.description.substring(0,15)}...</p>
+  <div>
+  <strong><a href="ArtBeats/${this._id}" style="color:blue;text-decoration:underline;">${this.title}</a></strong>
+  <p>${this.description.substring(0,20)}...</p>
+  </div>
   `
 })
 

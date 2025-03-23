@@ -3,12 +3,19 @@
 
 /* Navbar Styles */
 .navbar {
-    background-color: #333;
+    background: rgba(51, 51, 51, 0.3); /* Semi-transparent background */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
     padding: 1rem 2rem;
     position: sticky;
     top: 0;
     z-index: 1000;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
 }
+
 
 .nav-content {
     max-width: 1200px;
@@ -31,22 +38,48 @@
     list-style: none;
 }
 
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s ease;
+.nav-links .navA,
+.footer-section .navA {
+    position: relative;
+    color: white; /* Default text color */
+    text-decoration: none; /* Remove default underline */
+    padding-bottom: 5px; /* Space for underline */
+    transition: color 0.3s ease; /* Smooth text color change */
 }
 
-.nav-links a:hover {
-    color: #4CAF50;
+.nav-links .navA::after,
+.footer-section .navA::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 2px;
+    background-color: white; /* Underline color */
+    transition: width 0.3s ease-in-out; /* Smooth underline animation */
 }
+
+.nav-links .navA:hover {
+    color: #ffffff; /* Change text color on hover */
+}
+
+.nav-links .navA:hover::after {
+    width: 100%; /* Expands underline from left to right */
+}
+
 
 /* Footer Styles */
 .footer {
-    background-color: #333;
+    background: linear-gradient(to bottom, #333,#000 );
     color: white;
     padding: 2rem;
     margin-top: auto;
+    border-top-right-radius: 30px;
+    border-top-left-radius: 30px;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.footer:hover{
+    transform: translateY(10px);
 }
 
 .footer-content {
@@ -54,9 +87,8 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
+    gap: 5rem;
 }
-
 .footer-section h3 {
     color: #4CAF50;
     margin-bottom: 1rem;
@@ -65,22 +97,29 @@
 .footer-section ul {
     list-style: none;
 }
+.footer-section li {
+    margin-bottom: 10px;
+}
 
-.footer-section a {
+.footer-section .navA {
     color: white;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-.footer-section a:hover {
-    color: #4CAF50;
+.footer-section .navA:hover {
+    color: #4CAF50; /* Change text color on hover */
+}
+
+.footer-section .navA:hover::after {
+    width: 100%; /* Expands underline from left to right */
 }
 
 .footer-bottom {
     text-align: center;
     padding-top: 2rem;
     margin-top: 2rem;
-    border-top: 1px solid #444;
+    border-top: 1px solid #2e2e2e;
 }
 
 /* Main Content Styles */
@@ -95,9 +134,9 @@ main {
 
 
 .auth-btn {
-    background: #555; /* Deep Dark Background */
+    background: #333; /* Deep Dark Background */
     color: #ffffff !important; /* White Text */
-    border: 2px solid #333; /* Subtle Border */
+    border: 2px solid #555; /* Subtle Border */
     padding: 12px 24px;
     font-size: 16px;
     font-weight: bold;
@@ -117,4 +156,40 @@ main {
 .auth-btn:active {
     background: #000; /* Even Darker on Click */
     border-color: #777;
+}
+
+@media (max-width: 499px) {
+    .nav-content {
+        flex-direction: column;
+    }
+
+
+
+
+
+
+
+
+
+
+    .s1,.s2,.s3{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    .s3,.s2{
+        padding-top: 20px;
+        border-top: 2px #333 solid ;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .footer-content{
+        gap:2rem;
+    }
+    .footer-bottom{
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
 }

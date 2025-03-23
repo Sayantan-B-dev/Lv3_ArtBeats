@@ -1,0 +1,90 @@
+*{
+    font-family: "Share Tech Mono", serif;
+}
+body {
+    font-family: "Share Tech Mono", serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+h2, h3 {
+    color: #2c3e50;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+    background-color: none;
+}
+
+
+
+
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+    color: #fff;
+}
+
+.hero h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.features {
+    display: flex;
+    justify-content: space-around;
+    padding: 40px 20px;
+    background-color: #c0c0c0;
+    border-radius: 20px;
+    gap:10px
+}
+
+.feature {
+    max-width: 300px;
+    text-align: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.feature h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.feature p {
+    font-size: 1rem;
+    color: #555;
+}
+
+#map {
+    margin: 20px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 20px;
+    height: 200px;
+    border:1px white solid;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+#map:hover{
+    box-shadow: 0px 5px 15px rgba(255, 217, 0, 0.295);
+}

@@ -1,7 +1,4 @@
 <% layout('layouts/boilerplate') %>
-<script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.0.3/maptiler-sdk.umd.min.js"></script>
-<link crossorigin="anonymous" href="https://cdn.maptiler.com/maptiler-sdk-js/v2.0.3/maptiler-sdk.css"
-        rel="stylesheet">
 
     <div class="each-art-container">
         <h2 class="page-head">
@@ -13,12 +10,12 @@
                     <%if(Art.images.length){%>
                         <% for (let img of Art.images) { %>
                         <div class="carousel-item">
-                            <img class="each-card-image" src="<%= img.url %>" alt="Artwork Image">
+                            <img  class="each-card-image" src="<%= img.url %>" alt="Artwork Image">
                         </div>
                         <% } %>
                     <%}else{%>
                         <div class="carousel-item">
-                            <img class="each-card-image" src="/images/noImage.jpeg" alt="image is not available">
+                            <img  class="each-card-image" src="/images/noImage.jpeg" alt="image is not available">
                         </div>
                     <%}%>
                 </div>

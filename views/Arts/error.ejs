@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error <%= statusCode %></title>
+    <title>Error <%= err.statusCode %></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -46,9 +46,18 @@
 </head>
 <body>
     <div class="error-container">
-        <h1>Error <%= statusCode %></h1>
-        <p><%= message %></p>
+        <h1>Error <%= err.statusCode || 500 %></h1>
+    
+        <% if (process.env.NODE_ENV === 'production') { %>
+            <p>Something went wrong! Please try again later.</p>
+        <% } else { %>
+            <p><%= err.message %></p>
+            <pre><%= err.stack %></pre>
+        <% } %>
+    
         <a href="/">Go to Home</a>
-    </div>
+    </div>    
+    
+    
 </body>
 </html>

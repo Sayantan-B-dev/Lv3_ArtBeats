@@ -3,7 +3,6 @@ function hideAlert(element) {
 }
 
 
-
 //for image carousel in eachArt
 let currentIndex = 0;
 function moveSlide(step) {
@@ -38,4 +37,3 @@ function updateFileName() {
 }
 
 
-//for map api in eachArt
