@@ -329,3 +329,50 @@ button {
     height: 200px;
     border:1px white solid;
 }
+
+@media (max-width: 1000px) {
+  .each-art-container{
+    width: 60%;
+  }
+  .bottom-section {
+    flex-direction: column;
+  }
+  .comments-display {
+    width: 100%;
+  }
+}
+@media (max-width: 768px) {
+  .each-art-container{
+    width: 80%;
+  }
+}
+@media (max-width: 600px) {
+  .each-art-container{
+    width: 100%;
+    margin:0;
+  }
+}
+@media (max-width: 500px) {
+  .carousel {
+    width: 300px;
+  }
+}
+@media (max-width: 380px) {
+  .carousel {
+    width: 200px;
+  }
+  .each-card-footer{
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 380px) {
+  .three-button {
+    flex-direction:column;
+    align-items: center;
+    width: 100%;
+  }
+  .art-card {
+      width: 200px;
+  }
+}

@@ -3,7 +3,7 @@
 <a href="/ArtBeats/newArt"><button class="btn">Add new art</button></a>
 <div class="cards">
     <%  for(let Art of Arts){ %>
-        <div class="art-card" onclick="window.location.href='/ArtBeats/<%= Art._id %>';">
+        <div class="art-card" data-art-id="<%= Art._id %>">
             <%if(Art.images.length){%>
                 <img class="card-image" src="<%= Art.images[0].url %>" alt="">
             <%}else{%>
@@ -15,7 +15,7 @@
                 </h2>
                 <div class="location-info">
                     <span class="material-icons">place</span>
-                    <%= Art.location %>
+                    <p><%= Art.location %></p>
                 </div>
             </div>
         </div>

@@ -20,10 +20,11 @@
                     <%}%>
                 </div>
 
-                <% if(Art.images.length>1){ %>
-                    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
-                    <button class="next" onclick="moveSlide(1)">&#10095;</button>
-                    <% } %>
+                <% if(Art.images.length > 1) { %>
+                    <button class="prev" data-step="-1">&#10094;</button>
+                    <button class="next" data-step="1">&#10095;</button>
+                <% } %>
+                
 
             </div>
 
@@ -95,7 +96,7 @@
                     </fieldset>
                     <div class="comment-section">
                         <label for="comment">Leave a Comment</label>
-                        <textarea name="comment[body]" id="comment" rows="10" required>
+                        <textarea name="comment[body]" id="comment" rows="5" required>
                         </textarea>
                     </div>
                     <button class="btn each-page-btn" type="submit">Submit</button>

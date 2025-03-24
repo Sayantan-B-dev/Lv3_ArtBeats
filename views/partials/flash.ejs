@@ -1,14 +1,15 @@
 <% if (typeof success !== 'undefined' && String(success).trim().length > 0) { %>
-    <div class="alert alert-success" role="alert" onclick="hideAlert(this)">
+    <div class="alert alert-success" role="alert">
         <p><strong><%= success %> <br><span style="font-size: 10px;">(👆ignore)</span></strong></p>
     </div>
 <% } %>
 
 <% if (typeof error !== 'undefined' && String(error).trim().length > 0) { %>
-    <div class="alert alert-danger" role="alert" onclick="hideAlert(this)">
+    <div class="alert alert-danger" role="alert">
         <p><strong><%= error %></strong></p>
         <h6>(👆ignore)</h6>
     </div>
 <% } %>
+
 
 

@@ -2,18 +2,38 @@
 <nav class="navbar">
     <div class="nav-content">
         <a href="/" class="logo">ArtBeats</a>
-        <div class="nav-links">
-            <li><a class="navA" href="/">Home</a></li>
-            <li><a class="navA" href="/ArtBeats">Gallery</a></li>
-            <li><a class="navA" href="#footer">About</a></li>
-            <div>
-                <% if(!currentUser) {%>
-                <a href="/login"><button class="auth-btn">Sign In</button></a>
-                <a href="/register"><button class="auth-btn">Sign Up</button></a>
-                <% }else{ %>
-                <a href="/logout"><button class="auth-btn">Sign out</button></a>
-                <% } %>
+        <div style="display:flex;">
+            <div class="nav-links">
+                <li><a class="navA" href="/">Home</a></li>
+                <li><a class="navA" href="/ArtBeats">Gallery</a></li>
+                <li><a class="navA" href="#footer">About</a></li>
+                <div class="log-btns">
+                    <% if(!currentUser) {%>
+                        <a href="/login"><button class="auth-btn">Sign In</button></a>
+                        <a href="/register"><button class="auth-btn">Sign Up</button></a>
+                        <% }else{ %>
+                            <a href="/logout"><button class="auth-btn">Sign out</button></a>
+                            <% } %>
+                </div>
             </div>
+            <nav class="navBar">
+                <button class="navToggle">☰</button>
+                <ul class="navMenu">
+                    <div class="innerNav">
+                        <li><a class="navLink" href="/">Home</a></li>
+                        <li><a class="navLink" href="/ArtBeats">Gallery</a></li>
+                        <li><a class="navLink" href="#footer">About</a></li>
+                        <div class="log-btns2">
+                            <% if(!currentUser) {%>
+                                <a href="/login"><button class="auth-btn">Sign In</button></a>
+                                <a href="/register"><button class="auth-btn">Sign Up</button></a>
+                                <% }else{ %>
+                                    <a href="/logout"><button class="auth-btn">Sign out</button></a>
+                                    <% } %>
+                        </div>
+                    </div>
+                </ul>
+            </nav>
         </div>
     </div>
 </nav>

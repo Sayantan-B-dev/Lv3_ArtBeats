@@ -23,7 +23,7 @@ module.exports.createArt=async (req, res, next) => {
         }))
         newArt.author=req.user._id//added to track each author..its newArt.author and req.user._id note this
         await newArt.save();
-        console.log(newArt)
+        // console.log(newArt)
         req.flash('success', 'Successfully posted new Art!');
         res.redirect(`/ArtBeats/${newArt._id}`);
     } catch (err) {

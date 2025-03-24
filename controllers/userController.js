@@ -11,7 +11,7 @@ module.exports.userRegister=async (req, res) => {//,next is optional here since 
         req.login(registeredUser, function (err) {
             if (err) { return next(err); }
             req.flash('success', 'Welcome to ArtBeats')
-            res.redirect('/ArtBeats')
+            res.redirect('/')
         });//it will help with login..so you dont have to login after registering again
     } catch (err) {
         req.flash('error', err.message)
@@ -34,6 +34,6 @@ module.exports.logout=(req, res, next) => {
     req.logout(function (err) {
         if (err) return next(err);
         req.flash('success', 'Goodbye!');
-        res.redirect('/ArtBeats');
+        res.redirect('/');
     });
 }

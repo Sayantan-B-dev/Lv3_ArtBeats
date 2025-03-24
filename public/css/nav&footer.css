@@ -137,7 +137,7 @@ main {
     background: #333; /* Deep Dark Background */
     color: #ffffff !important; /* White Text */
     border: 2px solid #555; /* Subtle Border */
-    padding: 12px 24px;
+    padding: 8px 20px;
     font-size: 16px;
     font-weight: bold;
     border-radius: 8px;
@@ -157,21 +157,118 @@ main {
     background: #000; /* Even Darker on Click */
     border-color: #777;
 }
+.log-btns{
+    display: flex;
+    gap:0.5rem;
+}
+.log-btns2{
+    display: none;
+}
 
-@media (max-width: 499px) {
-    .nav-content {
-        flex-direction: column;
+/* nav toggle */
+/* Navbar styling */
+.navBar {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navMenu {
+    background: #222222ad; 
+    display: none;
+    list-style: none;
+    padding: 20px;
+    position: absolute;
+    top: 90px;
+    right: 20px;
+    width: fit-content;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.innerNav{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap:1rem;
+    width: fit-content;
+}
+
+.navMenu.active {
+    display: block;
+}
+
+.navToggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    padding: 0;
+    cursor: pointer;
+}
+.navLink{
+    color:white;
+    text-decoration: none;
+    right:0;
+}
+
+/* 📌 Show menu normally on large screens */
+@media (min-width: 779px) {
+    .navBar {
+        display: none; 
+    }
+    .navToggle {
+        display: none; 
     }
 
+    .navMenu {
+        display: flex; /* Always visible */
+        position: static;
+        background: none;
+        width: auto;
+    }
+
+    .navMenu li {
+        padding: 10px;
+    }
+}
 
 
+@media (max-width: 778px) {
+    .art-card {
+        width: 200px;
+    }
+    .nav-links li{
+        display: none;
+    }
+    .nav-links{
+        order:352;
+    }
+    .auth-btn {
+        border: 2px solid #555;
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+}
 
-
-
-
-
-
-
+@media (max-width: 499px) {
+    
+    .nav-content {
+        gap:1rem;
+    }
+    .log-btns{
+        flex-direction: column;
+        display: none;
+    }
+    .log-btns2{
+        display: flex;
+        flex-direction: column;
+        gap:0.5rem;
+    }
     .s1,.s2,.s3{
         display: flex;
         flex-direction: column;
@@ -193,3 +290,5 @@ main {
         border-top-right-radius: 10px;
     }
 }
+
+

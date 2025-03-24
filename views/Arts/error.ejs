@@ -52,7 +52,7 @@
             <p>Something went wrong! Please try again later.</p>
         <% } else { %>
             <p><%= err.message %></p>
-            <pre><%= err.stack %></pre>
+            <pre style="overflow:scroll;"><%= err.stack %></pre>
         <% } %>
     
         <a href="/">Go to Home</a>

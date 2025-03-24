@@ -52,10 +52,11 @@ module.exports.validateArtBeats = (req, res, next) => {
 
 module.exports.validateComment = (req, res, next) => {
     const { error } = commentSchema.validate(req.body, { abortEarly: false });
+    
     if (error) {
         const msg = error.details.map(el => el.message).join(', ');
-        res.render('Arts/error', { statusCode: 400, message: msg });
-    } else {
-        next()
+        return next(new ExpressError(msg, 400)); 
     }
-}
+
+    next(); 
+};

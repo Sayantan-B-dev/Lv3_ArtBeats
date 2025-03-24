@@ -19,13 +19,13 @@
     <%- include('./partials/flash.ejs') %>
 
     <main>
-        <div id="map" style="width: 100%; height:400px;"></div>
 
         <section class="hero">
             <h2>Welcome to ArtBeats</h2>
             <p>Where creativity meets passion. Explore the world of art like never before.</p>
             <a href="/ArtBeats"><button class="btn">Explore Gallery</button></a>
         </section>
+        <div id="map"></div>
 
         <section class="features">
             <div class="feature">
@@ -49,5 +49,6 @@
         const Arts = {features: <%- JSON.stringify(Arts) %>};
     </script>
     <script src="/js/clusterMap.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>

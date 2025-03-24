@@ -37,14 +37,11 @@
 
 
         <div class="upload-img-form">
-            <label for="file-upload" class="file-label">
-                <button type="button" class="file-btn" onclick="document.getElementById('file-upload').click();">Add images
-                </button>
-            </label>
-            <input class="new-label" id="file-upload" type="file" name="image_files" multiple style="display: none;"
-                onchange="updateFileName()">
+            <label for="file-upload" class="file-btn">Add Images</label>
+            <input type="file" id="file-upload" name="image_files" multiple style="display: none;">
             <span id="file-name-display">No file chosen</span>
         </div>
+        
         <div class="dlt-img-container">
             <p class="dlt-img-txt">Choose images to delete</p>
             <% Art.images.forEach(function(img, i) { %>
