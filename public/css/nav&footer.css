@@ -217,6 +217,8 @@ main {
 }
 
 /* 📌 Show menu normally on large screens */
+
+/* responsiveness */
 @media (min-width: 779px) {
     .navBar {
         display: none; 

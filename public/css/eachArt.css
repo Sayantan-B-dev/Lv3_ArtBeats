@@ -330,6 +330,7 @@ button {
     border:1px white solid;
 }
 
+/* responsiveness */
 @media (max-width: 1000px) {
   .each-art-container{
     width: 60%;
