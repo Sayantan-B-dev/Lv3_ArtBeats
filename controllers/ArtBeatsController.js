@@ -102,6 +102,12 @@ module.exports.updateEachArt=async (req, res, next) => {
         url: f.path,
         filename: f.filename
     }))
+    const totalImages = updatedArt.images.length + imgs.length;
+    if (totalImages > 3) {
+        req.flash('error', 'You can only have up to 3 images for an artwork.');
+        return res.redirect(`/ArtBeats/${updatedArt._id}`);
+    }
+
     updatedArt.images.push(...imgs)
 
     if(req.body.deleteImages){

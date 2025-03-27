@@ -68,8 +68,8 @@ document
 
     function validateUpload(fileInput, formAlert) {
         const files = fileInput.files;
-        if (files.length > 5) {
-            formAlert.innerText = "You can upload a maximum of 5 images.";
+        if (files.length > 3 ||files.length<1) {
+            formAlert.innerText = "You have to upload minimum of 1 image and You can upload a maximum of 3 images .";
             fileInput.value = ""; 
             return false;
         } else {
