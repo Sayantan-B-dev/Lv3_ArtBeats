@@ -16,19 +16,20 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local')
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet=require('helmet')
-
 const ArtBeats = require('./models/ArtModel.js')
 
+const MongoStore = require('connect-mongo');
 
 const ExpressError = require("./utils/ExpressErrors.js");
 const User = require('./models/userModel'); 
 
 
 // 🔹 MongoDB Connection
-const MONGO_URI = 'mongodb://127.0.0.1:27017/ArtBeats';
+const dbURL=process.env.DB_URL
+// const dbURL='mongodb://127.0.0.1:27017/ArtBeats'
 const connectDB = async () => {
   try {
-    await mongoose.connect(MONGO_URI);
+    await mongoose.connect(dbURL);
     console.log('✅ Database Connected Successfully');
   } catch (error) {
     console.error('❌ Database Connection Error:', error);
@@ -107,7 +108,19 @@ app.use(mongoSanitize());//sanitizing mongo
 
 
 // 🔹 Session Configuration (Before Passport)
+const  store= MongoStore.create({
+  mongoUrl:dbURL,//the Key matters very much
+  touchAfter:24*60*60,
+  crypto: {
+    secret: process.env.SESSION_SECRET,
+  }
+})
+store.on("error",function(e){
+  console.log("Session Store error: ",e)
+})
+
 const sessionConfig = {
+  store,
   name:`__cf${Math.floor(Math.random()*1000000000)}`,
   secret: process.env.SESSION_SECRET,
   resave: false,
