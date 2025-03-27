@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router({mergeParams:true});
 const catchAsync = require("../utils/catchAsync.js");
-const {isLoggedIn,isAuthor,validateArtBeats}=require('../middleware')
+const {isLoggedIn,isAuthor,validateArtBeats,checkDailyPostLimit}=require('../middleware')
 const ArtBeatsControl=require('../controllers/ArtBeatsController.js')
 const multer  = require('multer')
 const {storage}=require('../cloudinary')   //automatically looks for index.js

@@ -49,6 +49,7 @@ const ArtBeatsSchema = new Schema({
     type: Date,
     default: Date.now,
     required: true,
+    immutable: true
   },
   images: {
     type: [imageSchema],//this is genius ..

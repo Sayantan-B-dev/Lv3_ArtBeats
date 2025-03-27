@@ -109,7 +109,7 @@ app.use(mongoSanitize());//sanitizing mongo
 // 🔹 Session Configuration (Before Passport)
 const sessionConfig = {
   name:`__cf${Math.floor(Math.random()*1000000000)}`,
-  secret: 'asdjkfhas9f8asufokanklj23542349ruofkansdlfkansflndsfo9ais7df8piaon254lruiafhbo9sch8aslidcn',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -159,6 +159,7 @@ app.all('*', (req, res, next) => {
 })
 app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong" } = err;
+  if (!err.message) err.message = 'Something went wrong!';
   res.status(statusCode).render('Arts/error', { err });
 });
 

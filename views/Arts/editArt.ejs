@@ -29,11 +29,11 @@
         </div>
 
 
-        <div class="date_created">
+        <!-- <div class="date_created">
             <label class="new-label" for="date_created">Date Created:</label>
             <input class="new-input" type="date" id="date_created" name="ArtBeats[date_created]"
                 value="<%= Art.date_created ? Art.date_created.toISOString().slice(0, 10) : '' %>" required />
-        </div>
+        </div> -->
 
 
         <div class="upload-img-form">
@@ -60,3 +60,4 @@
 
 
     <a href="/ArtBeats"><button class="btn">All Arts</button></a>
+    <script src="/js/formValidation.js"></script>

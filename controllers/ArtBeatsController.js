@@ -12,21 +12,40 @@ module.exports.newArt=(req, res) => {
     res.render('Arts/newArt');
 }
 
+
 module.exports.createArt=async (req, res, next) => {
     try {
-        const geoData=await maptilerClient.geocoding.forward(req.body.ArtBeats.location,{limit:1})
+        const startOfDay = new Date();
+        startOfDay.setHours(0, 0, 0, 0);
+        const endOfDay = new Date();
+        endOfDay.setHours(23, 59, 59, 999);
+        const dailyPostsCount = await ArtBeats.countDocuments({
+            author: req.user._id,
+            date_created: { $gte: startOfDay, $lte: endOfDay }
+        });
+        if (dailyPostsCount >= 3) {
+            req.flash('error', 'You have reached your daily limit of 3 posts.');
+            return res.redirect('/ArtBeats');
+        }
+
+        console.log('Daily Posts Count:', dailyPostsCount);
+        const geoData = await maptilerClient.geocoding.forward(req.body.ArtBeats.location, { limit: 1 });
         const newArt = new ArtBeats(req.body.ArtBeats);
-        newArt.geometry = geoData.features.length ? geoData.features[0].geometry : {type: 'Point',coordinates: [0, 0]};
-        newArt.images=req.files.map(f=>({
+        newArt.geometry = geoData.features.length ? geoData.features[0].geometry : { type: 'Point', coordinates: [0, 0] };
+        newArt.images = req.files.map(f => ({
             url: f.path,
             filename: f.filename
-        }))
-        newArt.author=req.user._id//added to track each author..its newArt.author and req.user._id note this
+        }));
+
+        newArt.date_created = new Date();
+        newArt.author = req.user._id; // added to track each author
         await newArt.save();
-        // console.log(newArt)
+
         req.flash('success', 'Successfully posted new Art!');
         res.redirect(`/ArtBeats/${newArt._id}`);
+
     } catch (err) {
+        console.error('Error in createArt:', err);
         next(err);
     }
 }

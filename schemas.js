@@ -30,7 +30,7 @@ exports.ArtBeatsSchema = Joi.object({
       description: Joi.string().trim().required().escapeXML(),
       location: Joi.string().trim().required().escapeXML(),
       artist_name: Joi.string().trim().required().escapeXML(),
-      date_created: Joi.date().iso().required(),
+      //date_created: Joi.date().iso().required(),
       geometry: Joi.object({
         type: Joi.string().valid('Point').default('Point').required(), // Geometry type must always be 'Point'
         coordinates: Joi.array().items(Joi.number()).length(2).default([0, 0]).required() // Coordinates must be an array with exactly 2 numbers [longitude, latitude]
@@ -51,4 +51,4 @@ module.exports.commentSchema = Joi.object({
     body: Joi.string().trim().required().escapeXML(),
     rating: Joi.number().min(0).max(5).required()
   }).required()
-})
+}); 

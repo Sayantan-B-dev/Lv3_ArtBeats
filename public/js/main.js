@@ -98,3 +98,48 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const deleteButtons = document.querySelectorAll(".rmv-btn");
+
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent form submission
+            showConfirmationDialog(this.closest("form")); // Pass the form element to the dialog
+        });
+    });
+});
+
+function showConfirmationDialog(form) {
+    // Create the confirmation modal dynamically
+    const confirmationDialog = document.createElement("div");
+    confirmationDialog.style.position = "fixed";
+    confirmationDialog.style.top = "0";
+    confirmationDialog.style.left = "0";
+    confirmationDialog.style.width = "100%";
+    confirmationDialog.style.height = "100%";
+    confirmationDialog.style.display = "flex";
+    confirmationDialog.style.justifyContent = "center";
+    confirmationDialog.style.alignItems = "center";
+    confirmationDialog.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+    confirmationDialog.innerHTML = `
+        <div style="background: white; padding: 20px; border-radius: 8px; text-align: center;">
+            <p style="margin-bottom: 20px;">Are you sure you want to delete this? This action cannot be undone.</p>
+            <button id="confirm-yes" style="margin-right: 10px; padding: 10px 20px; background-color: red; color: white; border: none; border-radius: 4px; cursor: pointer;">Yes</button>
+            <button id="confirm-no" style="padding: 10px 20px; background-color: gray; color: white; border: none; border-radius: 4px; cursor: pointer;">No</button>
+        </div>
+    `;
+
+    // Append the modal to the body
+    document.body.appendChild(confirmationDialog);
+
+    // Handle button clicks
+    document.getElementById("confirm-yes").addEventListener("click", function () {
+        form.submit(); // Submit the form if "Yes" is clicked
+    });
+
+    document.getElementById("confirm-no").addEventListener("click", function () {
+        document.body.removeChild(confirmationDialog); // Close the modal if "No" is clicked
+    });
+}
