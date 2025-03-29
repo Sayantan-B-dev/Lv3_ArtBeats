@@ -10,6 +10,7 @@ document
     const location = document.querySelector("#location").value.trim();
     const artistName = document.querySelector("#artist_name").value.trim();
     const fileInput = document.querySelector("#file-upload");
+    const fileEditInput = document.querySelector("#file-edit-upload");
     
 
 
@@ -68,7 +69,7 @@ document
 
     function validateUpload(fileInput, formAlert) {
         const files = fileInput.files;
-        if (files.length > 3 ||files.length<1) {
+        if (files.length > 3) {
             formAlert.innerText = "You have to upload minimum of 1 image and You can upload a maximum of 3 images .";
             fileInput.value = ""; 
             return false;
@@ -77,7 +78,6 @@ document
             return true;
         }
     }
-
     if (
       validateUpload(fileInput, formAlert) &&
       validateTitle(title, formAlert) &&

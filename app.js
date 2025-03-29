@@ -23,7 +23,6 @@ const MongoStore = require('connect-mongo');
 const ExpressError = require("./utils/ExpressErrors.js");
 const User = require('./models/userModel'); 
 
-
 // 🔹 MongoDB Connection
 const dbURL=process.env.DB_URL
 // const dbURL='mongodb://127.0.0.1:27017/ArtBeats'

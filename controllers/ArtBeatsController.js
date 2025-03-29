@@ -111,12 +111,12 @@ module.exports.updateEachArt=async (req, res, next) => {
     updatedArt.images.push(...imgs)
 
     if(req.body.deleteImages){
-        for(let filename of req.body.deleteImages){
-            await cloudinary.uploader.destroy(filename)
-        }
         await updatedArt.updateOne({
             $pull:{images:{filename:{$in: req.body.deleteImages}}}
         })
+        for(let filename of req.body.deleteImages){
+            await cloudinary.uploader.destroy(filename)
+        }
     }
 
     await updatedArt.save()
@@ -128,6 +128,13 @@ module.exports.updateEachArt=async (req, res, next) => {
 module.exports.deleteEachArt=async (req, res, next) => {
     const { id } = req.params;
     const Art = await ArtBeats.findByIdAndDelete(id);
+    for (let img of Art.images) {
+        try {
+          await cloudinary.uploader.destroy(img.filename);
+        } catch (error) {
+          console.error('Cloudinary deletion error:', error);
+        }
+      }//fixed it 
     if (!Art) {
         req.flash('error', 'Art not found');
         return res.redirect('/ArtBeats');

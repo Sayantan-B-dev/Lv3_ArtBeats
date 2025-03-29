@@ -1,4 +1,4 @@
-module.exports = func => {                         //function(func)
+module.exports = func => {                         
     return (req, res, next) => {
         func(req, res, next).catch(next);
     }
